@@ -1,16 +1,10 @@
 ﻿#pragma hdrstop
 #pragma argsused
 
-#ifdef _WIN32
-#include <tchar.h>
-#else
-  typedef char _TCHAR;
-  #define _tmain main
-#endif
-
 #include <stdio.h>
 #include <iostream>
 #include <windows.h>
+#include <string.h>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -39,15 +33,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	// Результат выполнения.
 	BOOL result = FALSE;
 
+	// Узнаем у пользователя имя диска
+	string diskLetter = "";
+	cout << "Enter disk letter:\n";
+	diskLetter += "\\\\.\\";
+	diskLetter += cin.get();
+	diskLetter += ":";
+
 	// Открываем раздел диска.
-	if ((partition = CreateFileA("\\\\.\\H:",
-		GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE,
-		NULL,
-		OPEN_EXISTING,
-		0,
-		NULL)) == INVALID_HANDLE_VALUE)
+	if ((partition = CreateFileA(diskLetter.c_str(),
+		GENERIC_READ,       // Режим доступа
+		FILE_SHARE_READ | FILE_SHARE_WRITE,     // Режим совместной работы
+		NULL,       // Атрибуты безопасности
+		OPEN_EXISTING,      // Способ открытия
+		0,      // Флаги и атрибуты
+		NULL)) == INVALID_HANDLE_VALUE)     // Описатель (идентификатор) файла шаблона с правами доступа GENERIC_READ
 	{
+		cout << "Read disk (" << diskLetter.c_str() <<")... can`t open!" << endl;
 		cout << "Error: " << GetLastError() << endl;
 		system("pause");
 		return (-1);
@@ -96,7 +98,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << "Sectors per track:   " << diskGeometry.SectorsPerTrack << endl;
 	cout << "Bytes per sector:    " << diskGeometry.BytesPerSector << endl;
 	system("PAUSE");
-
+	/*
 	// Создание файла для сохранения образа.
 	if ((file = CreateFileA("D:\\partition.img",
 		GENERIC_READ | GENERIC_WRITE,
@@ -111,7 +113,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		system("pause");
 		return (-4);
 	}
-
 
 	// Резервируем место на диске для сохранения образа раздела. Пока у нас файл 0 байт.
 	//
@@ -184,7 +185,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 	while (result && bytesReturned);
-
+	*/
 	cout << "Partition copied successfully!\n";
 
 	delete[] buffer;
