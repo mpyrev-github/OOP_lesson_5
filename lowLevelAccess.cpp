@@ -34,14 +34,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	BOOL result = FALSE;
 
 	// Узнаем у пользователя имя диска
-	string diskLetter = "";
+	wstring diskLetter = L"";
 	cout << "Enter disk letter:\n";
-	diskLetter += "\\\\.\\";
+	diskLetter += L"\\\\.\\";
 	diskLetter += cin.get();
-	diskLetter += ":";
+	diskLetter += L":";
 
 	// Открываем раздел диска.
-	if ((partition = CreateFileA(diskLetter.c_str(),
+	if ((partition = CreateFileW(diskLetter.c_str(),
 		GENERIC_READ,       // Режим доступа
 		FILE_SHARE_READ | FILE_SHARE_WRITE,     // Режим совместной работы
 		NULL,       // Атрибуты безопасности
@@ -49,21 +49,32 @@ int _tmain(int argc, _TCHAR* argv[])
 		0,      // Флаги и атрибуты
 		NULL)) == INVALID_HANDLE_VALUE)     // Описатель (идентификатор) файла шаблона с правами доступа GENERIC_READ
 	{
-		cout << "Read disk (" << diskLetter.c_str() <<")... can`t open!" << endl;
-		cout << "Error: " << GetLastError() << endl;
+		wcout << "Read disk (" << diskLetter.c_str()[4] <<")... can`t open!" << endl;
+		cout << "Error: " << GetLastError() << endl;        // Код ошибки
+		switch (GetLastError()) {       // Причины
+			case 2:
+				cout << "Disk doesn`t exists!" << endl;
+				break;
+			case 5:
+				cout << "Open with admin rights!" << endl;
+				break;
+			default:
+				cout << "Unknown error." << endl;
+				break;
+		}
 		system("pause");
 		return (-1);
 	}
 
 	// Запрашиваем сведения о геометрии диска, на котором расположен раздел.
-	if (!DeviceIoControl(partition,
-		IOCTL_DISK_GET_DRIVE_GEOMETRY,
+	if (!DeviceIoControl(partition,     // запрошенное устройство
+		IOCTL_DISK_GET_DRIVE_GEOMETRY,      // выполняемая операция
 		NULL,
 		0,
-		&diskGeometry,
+		&diskGeometry,      // буфер вывода
 		sizeof (DISK_GEOMETRY),
-		&bytesReturned,
-		(LPOVERLAPPED)NULL))
+		&bytesReturned,     // # возвращено байтов
+		(LPOVERLAPPED) NULL))       // синхронизация ввода/вывода (I/O)
 	{
 		cout << "Error: " << GetLastError() << endl;
 		CloseHandle(partition);
