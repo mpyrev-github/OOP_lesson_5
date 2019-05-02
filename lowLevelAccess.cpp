@@ -18,7 +18,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	DISK_GEOMETRY diskGeometry = {0};
 
 	// Дескриптор файла для сохранения образа раздела.
-	HANDLE file = INVALID_HANDLE_VALUE;
+	//HANDLE file = INVALID_HANDLE_VALUE;
 
 	// Буфер для чтения.
 	BYTE* buffer = NULL;
@@ -73,42 +73,70 @@ int _tmain(int argc, _TCHAR* argv[])
 		0,
 		&diskGeometry,      // буфер вывода
 		sizeof (DISK_GEOMETRY),
-		&bytesReturned,     // # возвращено байтов
+		&bytesReturned,     // возвращено байтов
 		(LPOVERLAPPED) NULL))       // синхронизация ввода/вывода (I/O)
 	{
-		cout << "Error: " << GetLastError() << endl;
+		cout << "Error get drive geometry: " << GetLastError() << endl;
 		CloseHandle(partition);
 		system("pause");
 		return (-2);
 	}
 
 	// Запрашиваем сведения о разделе.
-	if (!DeviceIoControl(partition,
-		IOCTL_DISK_GET_PARTITION_INFO,
+	if (!DeviceIoControl(partition,     // запрошенное устройство
+		IOCTL_DISK_GET_PARTITION_INFO,      // выполняемая операция
 		NULL,
 		0,
-		&partitionInfo,
+		&partitionInfo,      // буфер вывода
 		sizeof (PARTITION_INFORMATION),
-		&bytesReturned,
-		(LPOVERLAPPED)NULL))
+		&bytesReturned,     // возвращено байтов
+		(LPOVERLAPPED)NULL))       // синхронизация ввода/вывода (I/O)
 	{
-		cout << "Error: " << GetLastError() << endl;
+		cout << "Error get partition info: " << GetLastError() << endl;
 		CloseHandle(partition);
 		system("pause");
 		return (-3);
 	}
 
-	// Размер раздела.
+	// Размер раздела
 	cout << "Partition's size (in bytes): " << partitionInfo.PartitionLength.QuadPart << endl;
-	// Размер диска отличается от размера раздела (причем, может значительно отличаться).
+	// Размер диска
 	cout << "Disk's size (in bytes):      " << (diskGeometry.Cylinders.QuadPart) *
 		diskGeometry.TracksPerCylinder * diskGeometry.SectorsPerTrack *
-		diskGeometry.BytesPerSector << endl;
-	cout << "Num of cylinders:    " << diskGeometry.Cylinders.QuadPart << endl;
-	cout << "Tracks per cylinder: " << diskGeometry.TracksPerCylinder << endl;
-	cout << "Sectors per track:   " << diskGeometry.SectorsPerTrack << endl;
-	cout << "Bytes per sector:    " << diskGeometry.BytesPerSector << endl;
-	system("PAUSE");
+		diskGeometry.BytesPerSector << endl
+		 << "Num of cylinders:    " << diskGeometry.Cylinders.QuadPart << endl
+		 << "Tracks per cylinder: " << diskGeometry.TracksPerCylinder << endl
+		 << "Sectors per track:   " << diskGeometry.SectorsPerTrack << endl
+		 << "Bytes per sector:    " << diskGeometry.BytesPerSector << endl;
+
+	// Запрашиваем сведения о файловой системе
+	WCHAR szVolumeName[100]    = L"";       // имя тома
+	WCHAR szFileSystemName[10] = L"";       // имя файловой системы
+	DWORD dwSerialNumber       = 0;         // серийный номер
+	DWORD dwMaxFileNameLength  = 0;         // максимальная длина имени в ФС
+	DWORD dwFileSystemFlags    = 0;         // системные флаги
+
+	wstring diskLetterShort = L"";
+		diskLetterShort = diskLetter[4];
+		diskLetterShort += L"://";      // короткое имя типа *://
+
+	if(GetVolumeInformationW(diskLetterShort.c_str(),
+							szVolumeName,
+							sizeof(szVolumeName),
+							&dwSerialNumber,
+							&dwMaxFileNameLength,
+							&dwFileSystemFlags,
+							szFileSystemName,
+							sizeof(szFileSystemName)))
+	{
+		wcout << L"Volume name = " << szVolumeName << endl
+			 << L"Serial number = " << dwSerialNumber << endl
+			 << L"Max. filename length = " << dwMaxFileNameLength
+			 << endl
+			 << L"File system flags = $" << hex << dwFileSystemFlags
+			 << endl
+			 << L"File system name = " << szFileSystemName << endl;
+	}
 	/*
 	// Создание файла для сохранения образа.
 	if ((file = CreateFileA("D:\\partition.img",
@@ -200,7 +228,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << "Partition copied successfully!\n";
 
 	delete[] buffer;
-	CloseHandle(file);
+	//CloseHandle(file);
 	CloseHandle(partition);
 
 	system("pause");
