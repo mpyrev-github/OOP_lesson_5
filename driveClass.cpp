@@ -116,8 +116,12 @@ DWORD driveClass::getTotalClusters(){
 
 // Метод чтения заданных пользователем кластеров
 void driveClass::readClusters() {
+	if (numOfClustersToRead == 0) {
+		cout << "Nothing to print." << endl;
+		return  ;
+	}
 
-	if (!(firstClusterToRead < 1 || firstClusterToRead >= getTotalClusters())) { // Проверка на корректность ввода
+	if ((firstClusterToRead <= getTotalClusters())) { // Проверка на корректность ввода
 		DWORD bytesReturned = 0;
 		DWORD bytesToRead = getBytesPerCluster() * numOfClustersToRead;
 		BYTE *dataBuffer = new BYTE[bytesToRead];       					// Выделяем память
@@ -126,7 +130,7 @@ void driveClass::readClusters() {
 
 		// При чтении данных с физического устройства смещение должно соответствовать границе сектора!
 		// Устанавливаем смещение
-		if (!SetFilePointer(fileHandle, sectorOffset.LowPart, &sectorOffset.HighPart, FILE_BEGIN)) {
+		if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
 			close();
 			exit(GetLastError());
 		}
@@ -151,7 +155,7 @@ void driveClass::readClusters() {
 // Метод вывода буффера в HEX виде
 void driveClass::printHexBuffer(BYTE * buffer)
 {
-	for (int i = 1; i < getBytesPerCluster() + 1; i++) {
+	for (int i = 1; i < getBytesPerCluster() * numOfClustersToRead + 1; i++) {
 		printf("%02x ", buffer[i - 1]);
 
 		if (i % 16 == 0) {
