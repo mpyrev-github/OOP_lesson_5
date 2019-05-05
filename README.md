@@ -19,7 +19,8 @@ If you want to download the project as a .zip file, please [click here](https://
 ## The authors
 * **Mikhail Pyryev** - *Main work* - [vastXgithub](https://github.com/vastXgithub).
 ## Special thanks to
-[Cyberforum\`s](http://www.cyberforum.ru) users **partos1** and **bigredcat** for [code example](http://www.cyberforum.ru/visual-cpp/thread249628.html).
+[Cyberforum\`s](http://www.cyberforum.ru) users **partos1** and **bigredcat** for [code example](http://www.cyberforum.ru/visual-cpp/thread249628.html).<br />
+~~The Company [Red Bull](https://www.redbull.com/) for not allowing them to sleep at night 👽~~
 
 ---
 
@@ -43,4 +44,5 @@ If you want to download the project as a .zip file, please [click here](https://
 ## Авторы
 * **Михаил Пырьев** - *Основная работа* - [vastXgithub](https://github.com/vastXgithub).
 ## Особая благодарность
-Пользователям **partos1** и **bigredcat** форума [cyberforum](http://www.cyberforum.ru) за [пример кода](http://www.cyberforum.ru/visual-cpp/thread249628.html).
+Пользователям **partos1** и **bigredcat** форума [cyberforum](http://www.cyberforum.ru) за [пример кода](http://www.cyberforum.ru/visual-cpp/thread249628.html).<br />
+~~Компании [Red Bull](https://www.redbull.com/ru-ru/) за то что недают уснуть по ночам 👽~~
