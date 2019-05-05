@@ -20,7 +20,7 @@ protected:
 	BYTE *fsName;					// Название Файловой Системы
 	DWORD bytesPerSector;
 	DWORD sectorsPerCluster;
-	DWORD totalClusters;
+	DWORD totalSectors;
 	ntfsBootRecord *currentRecord;	// Текущая загрузочная запись
 
 	HANDLE open(const WCHAR *fileName);     // Открытие диска

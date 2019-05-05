@@ -12,7 +12,7 @@ driveClass::driveClass() {
 	fsName = (unsigned char*)"";
 	bytesPerSector = 0;
 	sectorsPerCluster = 0;
-	totalClusters = 0;
+	totalSectors = 0;
 }
 
 // Метод открытия диска
@@ -91,7 +91,7 @@ void driveClass::setFsAttributes(){
 	fsName = (unsigned char*)currentRecord->OEM_Name;
 	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;
 	sectorsPerCluster = currentRecord->SectorsPerCluster;
-	totalClusters = currentRecord->TotalSectors;
+	totalSectors = currentRecord->TotalSectors;
 }
 
 BYTE *driveClass::getFsName(){
@@ -111,15 +111,15 @@ DWORD driveClass::getBytesPerCluster(){
 }
 
 DWORD driveClass::getTotalClusters(){
-	return totalClusters;
+	return totalSectors / sectorsPerCluster;
 }
 
 // Метод чтения заданных пользователем кластеров
 void driveClass::readClusters() {
 
-	if (!(firstClusterToRead < 1 || firstClusterToRead >= totalClusters)) { // Проверка на корректность ввода
+	if (!(firstClusterToRead < 1 || firstClusterToRead >= getTotalClusters())) { // Проверка на корректность ввода
 		DWORD bytesReturned = 0;
-		DWORD bytesToRead = bytesPerSector * numOfClustersToRead;
+		DWORD bytesToRead = getBytesPerCluster() * numOfClustersToRead;
 		BYTE *dataBuffer = new BYTE[bytesToRead];       					// Выделяем память
 		LARGE_INTEGER sectorOffset;
 		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Задаем смещение
