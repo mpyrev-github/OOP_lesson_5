@@ -3,7 +3,7 @@
 * [Русская версия](https://github.com/vastXgithub/OOP_lesson_5/blob/master/README.md#%D0%BE%D0%BE%D0%BF)
 # OOP
 ## Lesson 5
-This is the fifth project at the rate of OOP from Dmitry Khorkov. <br /> In this project there was the following task: <br /> To write a program intended for low-level access to the data of the NTFS file system.
+This is the fifth project for course of OOP from Dmitry Khorkov. <br /> In this project there was the following task: <br /> To write a program intended for low-level access to the data of the NTFS file system.
 ### Realized program functionality:
 * Opening a disk.
 * Check that the disk being opened contains the NTFS file system (by OEM name in the boot record)
