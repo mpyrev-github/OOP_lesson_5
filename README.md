@@ -7,7 +7,7 @@ This is the fifth project for course of OOP from Dmitry Khorkov. <br /> In this 
 ### Realized program functionality:
 * Opening a disk.
 * Check that the disk being opened contains the NTFS file system (by OEM name in the boot record)
-* Reading and saving service information about the file system (preferably in a separate object, and not in the components of the form)
+* Reading and saving service information about the file system (in a separate object)
 * Read the specified file system cluster in the buffer passed as a parameter.
 * Closing the disk.
 ### Try the program
@@ -32,7 +32,7 @@ If you want to download the project as a .zip file, please [click here](https://
 ### Реализованный функционал программы:
 * Открытие диска.
 * Проверка того, что открываемый диск содержит файловую систему NTFS (по OEM-имени в загрузочной записи)
-* Считывание и сохранение служебной информации о файловой системе (желательно в отдельном объекте, а не в компонентах формы)
+* Считывание и сохранение служебной информации о файловой системе (в отдельном объекте)
 * Считывание заданного кластера файловой системы в буфер, передаваемый в качестве параметра.
 * Закрытие диска.
 ### Попробовать программу
