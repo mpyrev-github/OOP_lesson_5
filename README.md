@@ -6,8 +6,8 @@
 This is the fifth project for course of OOP from Dmitry Khorkov. <br /> In this project there was the following task: <br /> To write a program intended for low-level access to the data of the NTFS file system.
 ### Realized program functionality:
 * Opening a disk.
-* Check that the disk being opened contains the NTFS file system (by OEM name in the boot record)
-* Reading and saving service information about the file system (in a separate object)
+* Check that the disk being opened contains the NTFS file system (by OEM name in the boot record).
+* Reading and saving service information about the file system.
 * Read the specified file system cluster in the buffer passed as a parameter.
 * Closing the disk.
 ### Try the program
@@ -28,11 +28,11 @@ If you want to download the project as a .zip file, please [click here](https://
 
 # ООП
 ## Урок 5
-Это пятый проект по курсу ООП от Дмитрия Хорькова.<br />В этом проекте стояла стояла следующая задача:<br />Написать программу, предназначенную для низкоуровневого доступа к данным файловой системы NTFS.
+Это пятый проект по курсу ООП от Дмитрия Хорькова.<br />В этом проекте стояла следующая задача:<br />Написать программу, предназначенную для низкоуровневого доступа к данным файловой системы NTFS.
 ### Реализованный функционал программы:
 * Открытие диска.
 * Проверка того, что открываемый диск содержит файловую систему NTFS (по OEM-имени в загрузочной записи)
-* Считывание и сохранение служебной информации о файловой системе (в отдельном объекте)
+* Считывание и сохранение служебной информации о файловой системе.
 * Считывание заданного кластера файловой системы в буфер, передаваемый в качестве параметра.
 * Закрытие диска.
 ### Попробовать программу
