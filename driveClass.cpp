@@ -1,11 +1,11 @@
-#include "driveClass.h"
+п»ї#include "driveClass.h"
 #include <iostream>
 #include <string>
 #include <mbstring.h>
 
 using namespace std;
 
-// Инициализация класса
+// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєР»Р°СЃСЃР°
 driveClass::driveClass() {
 	fileHandle = INVALID_HANDLE_VALUE;
 	currentRecord = NULL;
@@ -15,22 +15,22 @@ driveClass::driveClass() {
 	totalClusters = 0;
 }
 
-// Метод открытия диска
+// РњРµС‚РѕРґ РѕС‚РєСЂС‹С‚РёСЏ РґРёСЃРєР°
 HANDLE driveClass::open(const WCHAR *fileName) {
-	// Открываем раздел диска.
+	// РћС‚РєСЂС‹РІР°РµРј СЂР°Р·РґРµР» РґРёСЃРєР°.
 	if ((fileHandle = CreateFileW(fileName,
-		GENERIC_READ,       					// Режим доступа
-		FILE_SHARE_READ | FILE_SHARE_WRITE,     // Режим совместной работы
-		NULL,       							// Атрибуты безопасности
-		OPEN_EXISTING,      					// Способ открытия
-		0,      								// Флаги и атрибуты
+		GENERIC_READ,       					// Р РµР¶РёРј РґРѕСЃС‚СѓРїР°
+		FILE_SHARE_READ | FILE_SHARE_WRITE,     // Р РµР¶РёРј СЃРѕРІРјРµСЃС‚РЅРѕР№ СЂР°Р±РѕС‚С‹
+		NULL,       							// РђС‚СЂРёР±СѓС‚С‹ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё
+		OPEN_EXISTING,      					// РЎРїРѕСЃРѕР± РѕС‚РєСЂС‹С‚РёСЏ
+		0,      								// Р¤Р»Р°РіРё Рё Р°С‚СЂРёР±СѓС‚С‹
 		NULL)) == INVALID_HANDLE_VALUE)	{
 
 		wcout << "Read disk (" << fileName[4] <<")... can`t open!" << endl;
 
-		//cout << "Error: " << GetLastError() << endl;        // Код ошибки
+		//cout << "Error: " << GetLastError() << endl;        // РљРѕРґ РѕС€РёР±РєРё
 
-		switch (GetLastError()) {       // Причины
+		switch (GetLastError()) {       // РџСЂРёС‡РёРЅС‹
 			case 2:
 				cout << "Disk doesn`t exists!" << endl;
 				break;
@@ -48,21 +48,21 @@ HANDLE driveClass::open(const WCHAR *fileName) {
 	return fileHandle;
 }
 
-// Метод проверки ФС выбранного диска на совпадение с NTFS
+// РњРµС‚РѕРґ РїСЂРѕРІРµСЂРєРё Р¤РЎ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РґРёСЃРєР° РЅР° СЃРѕРІРїР°РґРµРЅРёРµ СЃ NTFS
 bool driveClass::checkBootRecord(const WCHAR *fileName) {
 	DWORD bufferSize;
-	BYTE *buffer;       			// Объявляем буфер для хранения загрузочной записи
-	bufferSize = 1024;				// Устанавливаем размер буфера
-	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
-	fileHandle = open(fileName);    // Использование вышеописанной функции
+	BYTE *buffer;       			// РћР±СЉСЏРІР»СЏРµРј Р±СѓС„РµСЂ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ Р·Р°РіСЂСѓР·РѕС‡РЅРѕР№ Р·Р°РїРёСЃРё
+	bufferSize = 1024;				// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°
+	buffer = new BYTE[bufferSize];	// Р’С‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё РґР»СЏ Р±СѓС„РµСЂР° СѓРєР°Р·Р°РЅРЅРѕРіРѕ СЂР°Р·РјРµСЂР°
+	fileHandle = open(fileName);    // РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІС‹С€РµРѕРїРёСЃР°РЅРЅРѕР№ С„СѓРЅРєС†РёРё
 
-	// Устанавливаем указатель на начало файла.
+	// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅР°С‡Р°Р»Рѕ С„Р°Р№Р»Р°.
 	SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN);
 
-	BOOL readResult = false;		// Инициализируем результат чтения файловой записи
+	BOOL readResult = false;		// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂРµР·СѓР»СЊС‚Р°С‚ С‡С‚РµРЅРёСЏ С„Р°Р№Р»РѕРІРѕР№ Р·Р°РїРёСЃРё
 	DWORD bytesReturned = 0;
 
-	// Чтение секторов загрузочной записи.
+	// Р§С‚РµРЅРёРµ СЃРµРєС‚РѕСЂРѕРІ Р·Р°РіСЂСѓР·РѕС‡РЅРѕР№ Р·Р°РїРёСЃРё.
 	readResult = ReadFile(fileHandle, buffer, bufferSize, &bytesReturned, NULL);
 	if (!readResult) {
 		cout << "Read boot record error: " << GetLastError() << endl;
@@ -71,14 +71,14 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 		exit (GetLastError());
 	} else {
 		currentRecord = (ntfsBootRecord *) buffer;
-		if (_mbscmp(currentRecord->OEM_Name,(BYTE*) "NTFS    ")) {      // Сравнение с известной сигнатурой
-			cout << "File system on this drive is not NTFS!" << endl    // Обработка несоответствия
+		if (_mbscmp(currentRecord->OEM_Name,(BYTE*) "NTFS    ")) {      // РЎСЂР°РІРЅРµРЅРёРµ СЃ РёР·РІРµСЃС‚РЅРѕР№ СЃРёРіРЅР°С‚СѓСЂРѕР№
+			cout << "File system on this drive is not NTFS!" << endl    // РћР±СЂР°Р±РѕС‚РєР° РЅРµСЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ
 				 << "This file system doesn`t support!" << endl;
 			close();
 			system("pause");
 			return false;
 		} else {
-			setFsAttributes();          // При совпадении задаем свойства объекту
+			setFsAttributes();          // РџСЂРё СЃРѕРІРїР°РґРµРЅРёРё Р·Р°РґР°РµРј СЃРІРѕР№СЃС‚РІР° РѕР±СЉРµРєС‚Сѓ
 			return true;
 		}
 	}
@@ -86,7 +86,7 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 	delete[] buffer;
 }
 
-// Метод придания свойств объекту
+// РњРµС‚РѕРґ РїСЂРёРґР°РЅРёСЏ СЃРІРѕР№СЃС‚РІ РѕР±СЉРµРєС‚Сѓ
 void driveClass::setFsAttributes(){
 	fsName = (unsigned char*)currentRecord->OEM_Name;
 	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;
@@ -114,32 +114,32 @@ DWORD driveClass::getTotalClusters(){
 	return totalClusters;
 }
 
-// Метод чтения заданных пользователем кластеров
+// РњРµС‚РѕРґ С‡С‚РµРЅРёСЏ Р·Р°РґР°РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РєР»Р°СЃС‚РµСЂРѕРІ
 void driveClass::readClusters() {
 
-	if (!(firstClusterToRead < 1 || firstClusterToRead >= totalClusters)) { // Проверка на корректность ввода
+	if (!(firstClusterToRead < 1 || firstClusterToRead >= totalClusters)) { // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РІРІРѕРґР°
 		DWORD bytesReturned = 0;
 		DWORD bytesToRead = bytesPerSector * numOfClustersToRead;
-		BYTE *dataBuffer = new BYTE[bytesToRead];       					// Выделяем память
+		BYTE *dataBuffer = new BYTE[bytesToRead];       					// Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ
 		LARGE_INTEGER sectorOffset;
-		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Задаем смещение
+		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Р—Р°РґР°РµРј СЃРјРµС‰РµРЅРёРµ
 
-		// При чтении данных с физического устройства смещение должно соответствовать границе сектора!
-		// Устанавливаем смещение
+		// РџСЂРё С‡С‚РµРЅРёРё РґР°РЅРЅС‹С… СЃ С„РёР·РёС‡РµСЃРєРѕРіРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР° СЃРјРµС‰РµРЅРёРµ РґРѕР»Р¶РЅРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ РіСЂР°РЅРёС†Рµ СЃРµРєС‚РѕСЂР°!
+		// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРјРµС‰РµРЅРёРµ
 		if (!SetFilePointer(fileHandle, sectorOffset.LowPart, &sectorOffset.HighPart, FILE_BEGIN)) {
 			close();
 			exit(GetLastError());
 		}
 
-		// Чтение данных в dataBuffer
+		// Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РІ dataBuffer
 		bool readResult = ReadFile(fileHandle, dataBuffer, bytesToRead, &bytesReturned, NULL);
 
-		if(!readResult || bytesReturned != bytesToRead) { // Обработка нарушения считывания диска
+		if(!readResult || bytesReturned != bytesToRead) { // РћР±СЂР°Р±РѕС‚РєР° РЅР°СЂСѓС€РµРЅРёСЏ СЃС‡РёС‚С‹РІР°РЅРёСЏ РґРёСЃРєР°
 			close();
 			exit(GetLastError());
 		}
 
-		printHexBuffer(dataBuffer);     // Вывод в виде HEX значений
+		printHexBuffer(dataBuffer);     // Р’С‹РІРѕРґ РІ РІРёРґРµ HEX Р·РЅР°С‡РµРЅРёР№
 	} else {
 		cout << "Choosen sector unavailable.";
 	}
@@ -148,7 +148,7 @@ void driveClass::readClusters() {
 
 }
 
-// Метод вывода буффера в HEX виде
+// РњРµС‚РѕРґ РІС‹РІРѕРґР° Р±СѓС„С„РµСЂР° РІ HEX РІРёРґРµ
 void driveClass::printHexBuffer(BYTE * buffer)
 {
 	for (int i = 1; i < getBytesPerCluster() + 1; i++) {
