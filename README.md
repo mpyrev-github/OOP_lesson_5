@@ -13,7 +13,7 @@ This is the fifth project at the rate of OOP from Dmitry Khorkov. <br /> In this
 ### Try the program
 1. If you want to try my program, you can [download](https://github.com/vastXgithub/OOP_lesson_5/archive/master.zip) project.
 2. Run the project and create (*Make*) \*.exe-file.
-3. Run it as administrator, otherwise the functionality will be limited - it is possible to read data only from external drives.
+3. Run it as administrator, otherwise the functionality will be limited (read data only from external drives).
 ## Download project
 If you want to download the project as a .zip file, please [click here](https://github.com/vastXgithub/OOP_lesson_5/archive/master.zip).
 ## The authors
@@ -37,7 +37,7 @@ If you want to download the project as a .zip file, please [click here](https://
 ### Попробовать программу
 1. Если вы хотите попробовать мою программу, вы можете [скачать](https://github.com/vastXgithub/OOP_lesson_5/archive/master.zip) проект.
 2. Запустить проект и создать (*Make*) \*.exe-файл.
-3. Запустить его с правами администратора, иначе функционал будет ограничен - возможно считать данные только с внешних накопителей.
+3. Запустить его с правами администратора, иначе функционал будет ограничен (считивание данных только с внешних накопителей).
 ## Загрузить проект
 Если вы хотите загрузить проект как .zip-файл, пожалуйста [нажмите сюда](https://github.com/vastXgithub/OOP_lesson_5/archive/master.zip).
 ## Авторы
