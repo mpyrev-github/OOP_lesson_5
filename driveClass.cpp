@@ -1,7 +1,6 @@
 ﻿#include "driveClass.h"
 #include <iostream>
 #include <string>
-#include <mbstring.h>
 
 using namespace std;
 
@@ -71,7 +70,9 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 		exit (GetLastError());
 	} else {
 		currentRecord = (ntfsBootRecord *) buffer;
-		if (_mbscmp(currentRecord->OEM_Name,(BYTE*) "NTFS    ")) {      // Сравнение с известной сигнатурой
+		string ntfsName("NTFS    ");        // Сигнатура NTFS в записи OEM
+		string fsName ((char *)currentRecord->OEM_Name);        // Запишем текущую сигнатуру в переменную типа string
+		if (fsName != ntfsName) {      // Сравнение с известной сигнатурой
 			cout << "File system on this drive is not NTFS!" << endl    // Обработка несоответствия
 				 << "This file system doesn`t support!" << endl;
 			close();
