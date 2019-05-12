@@ -1,6 +1,7 @@
 ﻿#include "driveClass.h"
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -156,8 +157,8 @@ void driveClass::readClusters() {
 // Метод вывода буффера в HEX виде
 void driveClass::printHexBuffer(BYTE * buffer)
 {
-	for (int i = 1; i < getBytesPerCluster() * numOfClustersToRead + 1; i++) {
-		printf("%02x ", buffer[i - 1]);
+    for (int i = 1; i < getBytesPerCluster() * numOfClustersToRead + 1; i++) {
+		cout << hex << setw(2) << setfill('0') << DWORD(buffer[i - 1]) << " ";
 
 		if (i % 16 == 0) {
 			cout << endl;
