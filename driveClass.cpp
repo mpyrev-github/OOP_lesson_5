@@ -13,6 +13,8 @@ driveClass::driveClass() {
 	bytesPerSector = 0;
 	sectorsPerCluster = 0;
 	totalSectors = 0;
+	numOfClustersToRead = 0;
+	firstClusterToRead = 0;
 }
 
 // Метод открытия диска
@@ -73,6 +75,7 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 		currentRecord = (ntfsBootRecord *) buffer;
 		string ntfsName("NTFS    ");        // Сигнатура NTFS в записи OEM
 		string fsName ((char *)currentRecord->OEM_Name);        // Запишем текущую сигнатуру в переменную типа string
+
 		if (fsName != ntfsName) {      // Сравнение с известной сигнатурой
 			cout << "File system on this drive is not NTFS!" << endl    // Обработка несоответствия
 				 << "This file system doesn`t support!" << endl;
@@ -116,11 +119,19 @@ DWORD driveClass::getTotalClusters(){
 	return totalSectors / sectorsPerCluster;
 }
 
+void driveClass::setNumOfClustersToRead(DWORD &numOfClusters){
+	numOfClustersToRead = numOfClusters;
+}
+
+void driveClass::setFirstClusterToRead(DWORD &firstCluster){
+	firstClusterToRead = firstCluster;
+}
+
 // Метод чтения заданных пользователем кластеров
 void driveClass::readClusters() {
 	if (numOfClustersToRead == 0) {
 		cout << "Nothing to print." << endl;
-		return  ;
+		return;
 	}
 
 	if ((firstClusterToRead <= getTotalClusters())) { // Проверка на корректность ввода
@@ -146,17 +157,16 @@ void driveClass::readClusters() {
 		}
 
 		printHexBuffer(dataBuffer);     // Вывод в виде HEX значений
+		delete[] dataBuffer;
 	} else {
 		cout << "Choosen sector unavailable.";
 	}
 
 	close();
-
 }
 
 // Метод вывода буффера в HEX виде
-void driveClass::printHexBuffer(BYTE * buffer)
-{
+void driveClass::printHexBuffer(BYTE * buffer){
     for (int i = 1; i < getBytesPerCluster() * numOfClustersToRead + 1; i++) {
 		cout << hex << setw(2) << setfill('0') << DWORD(buffer[i - 1]) << " ";
 
@@ -168,6 +178,7 @@ void driveClass::printHexBuffer(BYTE * buffer)
 			cout << "  ";
 		}
 	}
+    delete[] buffer;
 }
 
 void driveClass::close() {

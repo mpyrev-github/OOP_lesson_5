@@ -59,10 +59,14 @@ int _tmain(int argc, _TCHAR* argv[])
 			 << "Bytes per cluster:" << driveObj.getBytesPerCluster() << endl
 			 << "Total clusters:" << driveObj.getTotalClusters() << endl
 			 << "How many clusters do you want to read?" << endl;
-		cin  >> driveObj.numOfClustersToRead;        // Узнаем у пользователя количество интересующих кластеров
+		DWORD numOfClustersBuf;
+		cin >> numOfClustersBuf;
+		driveObj.setNumOfClustersToRead(numOfClustersBuf);        // Узнаем у пользователя количество интересующих кластеров
 		cout <<	"Where to start? Available clusters: [0, "
 			 << driveObj.getTotalClusters()<<"]" << endl;
-		cin  >> driveObj.firstClusterToRead;        // Узнаем у пользователя с какого кластера начать
+		DWORD firstClusterBuf;
+		cin >> firstClusterBuf;
+		driveObj.setFirstClusterToRead(firstClusterBuf);        // Узнаем у пользователя с какого кластера начать
 		driveObj.readClusters();
 	}
 

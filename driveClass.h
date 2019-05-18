@@ -17,13 +17,19 @@ typedef struct {
 class driveClass {
 protected:
 	HANDLE fileHandle;				// Дескриптор файлового устройства (раздела диска)
+
 	BYTE *fsName;					// Название Файловой Системы
+
 	DWORD bytesPerSector;
 	DWORD sectorsPerCluster;
 	DWORD totalSectors;
+	DWORD numOfClustersToRead;
+	DWORD firstClusterToRead;
+
 	ntfsBootRecord *currentRecord;	// Текущая загрузочная запись
 
 	HANDLE open(const WCHAR *fileName);     // Открытие диска
+
 	void setFsAttributes();                 // Запись атрибутов в свойства
 	void printHexBuffer(BYTE * buffer);     // Отображение буффера в HEX виде
 	void close();                           // Закрытие диска
@@ -31,16 +37,19 @@ protected:
 public:
 	driveClass();                           		// Конструктор
 
-	DWORD numOfClustersToRead;
-	DWORD firstClusterToRead;
+	void setNumOfClustersToRead(DWORD &numOfClusters);
+	void setFirstClusterToRead(DWORD &firstCluster);
+	void readClusters();                            // Вывод интересующих кластеров
 
 	BYTE *getFsName();
+
 	DWORD getBytesPerSector();
 	DWORD getSectorsPerCluster();
 	DWORD getBytesPerCluster();
 	DWORD getTotalClusters();
+
 	bool checkBootRecord(const WCHAR *fileName);    // Проверка на соответствие ФС к NTFS
-	void readClusters();                            // Вывод интересующих кластеров
+
 
 	~driveClass();                                  // Деструктор
 };
