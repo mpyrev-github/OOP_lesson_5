@@ -101,6 +101,18 @@
         <None Include="driveClass.h">
             <BuildOrder>3</BuildOrder>
         </None>
+        <CppCompile Include="exfatClass.cpp">
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
+        <None Include="exfatClass.h">
+            <BuildOrder>11</BuildOrder>
+        </None>
+        <CppCompile Include="factoryClass.cpp">
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <None Include="factoryClass.h">
+            <BuildOrder>7</BuildOrder>
+        </None>
         <CppCompile Include="fsClass.cpp">
             <BuildOrder>4</BuildOrder>
         </CppCompile>
@@ -110,6 +122,12 @@
         <CppCompile Include="lowLevelAccess.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ntfsClass.cpp">
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <None Include="ntfsClass.h">
+            <BuildOrder>9</BuildOrder>
+        </None>
         <PCHCompile Include="Project_lowLevelAccess_PCH.h">
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>

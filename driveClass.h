@@ -15,12 +15,12 @@ typedef struct {
   BYTE SectorsPerCluster;       // Количество секторов в кластере
   BYTE Offset_TotalSectors[26]; // Смещение до значения количества секторов в ФС
   ULONGLONG TotalSectors;       // Количество секторов в файловой системе
-} ntfsBootRecord;
+} ntfsBootRecord1;
 
 #pragma pack(pop)
 
 class driveClass {
-protected:
+private:
 	HANDLE fileHandle;				// Дескриптор файлового устройства (раздела диска)
 
 	BYTE *fsName;					// Название Файловой Системы
@@ -38,7 +38,7 @@ protected:
 public:
 	driveClass(const WCHAR *fileName);                           		// Конструктор
 
-	ntfsBootRecord *currentRecord;	// Текущая загрузочная запись
+	ntfsBootRecord1 *currentRecord;	// Текущая загрузочная запись
 
 	void setNumOfClustersToRead(DWORD &numOfClusters);
 	void setFirstClusterToRead(DWORD &firstCluster);
@@ -50,8 +50,6 @@ public:
 	BYTE *readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize);
 
 	DWORD getTotalClusters();
-
-	bool checkBootRecord();    // Проверка на соответствие ФС к NTFS
 
 	~driveClass();                                  // Деструктор
 };

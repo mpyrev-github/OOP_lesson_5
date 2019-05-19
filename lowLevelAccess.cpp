@@ -7,6 +7,8 @@
 #include <string>
 
 #include "driveClass.h"
+#include "fsClass.h"
+#include "factoryClass.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -47,24 +49,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	diskLetter += cin.get();
 	diskLetter += L":";
 
-	driveClass* driveObj = new driveClass(diskLetter.c_str()); // Создадим объект класса driveClass
+	driveClass* driveObj = new driveClass(diskLetter.c_str()); // Создадим объект класса driveClass и передаем букву диска в конструктор
+	fsClass* fsObj = factoryClass::objCreator(driveObj);    // Запустим фабрику factoryClass
 
-	// Работа с свойствами и методами класса
-	if (!driveObj->checkBootRecord()) {        // Передаем букву диска и проверяем NTFS ли
-		 exit(-1);      // Если нет, то закрываем программу
-	} else {
-		driveObj->getAttributes();
+	// Работа с методами объектов класса fsClass
+	fsObj->getAttributes();
+
 		cout << "How many clusters do you want to read?" << endl;
 		DWORD numOfClustersBuf;
 		cin >> numOfClustersBuf;
 		driveObj->setNumOfClustersToRead(numOfClustersBuf);        // Узнаем у пользователя количество интересующих кластеров
 		cout <<	"Where to start? Available clusters: [0, "
-			 << driveObj->getTotalClusters()<<"]" << endl;
+			 << fsObj->getTotalClusters()<<"]" << endl;
 		DWORD firstClusterBuf;
 		cin >> firstClusterBuf;
 		driveObj->setFirstClusterToRead(firstClusterBuf);        // Узнаем у пользователя с какого кластера начать
 		driveObj->readClusters();
-	}
 
 	system("pause");
 	return 0;

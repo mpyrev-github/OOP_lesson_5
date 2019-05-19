@@ -67,51 +67,12 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize){
 	return buffer;
 }
 
-// Метод проверки ФС выбранного диска на совпадение с NTFS
-bool driveClass::checkBootRecord() {
-
-	DWORD bufferSize;
-	BYTE *buffer;       			// Объявляем буфер для хранения загрузочной записи
-	bufferSize = 1024;				// Устанавливаем размер буфера
-	LARGE_INTEGER sectorOffset;
-	sectorOffset.QuadPart = 0;
-
-	buffer = readRecords(sectorOffset,bufferSize);
-
-	currentRecord = (ntfsBootRecord *) buffer;
-	string ntfsName("NTFS    ");        // Сигнатура NTFS в записи OEM
-	string fsName ((char *)currentRecord->OEM_Name);        // Запишем текущую сигнатуру в переменную типа string
-
-	if (fsName != ntfsName) {      // Сравнение с известной сигнатурой
-		cout << "File system on this drive is not NTFS!" << endl    // Обработка несоответствия
-			 << "This file system doesn`t support!" << endl;
-		close();
-		system("pause");
-		return false;
-	} else {
-		setAttributes();          // При совпадении задаем свойства объекту
-		return true;
-	}
-
-delete[] buffer;
-
-}
-
 // Метод придания свойств объекту
 void driveClass::setAttributes(){
 	fsName = (unsigned char*)currentRecord->OEM_Name;
 	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;
 	sectorsPerCluster = currentRecord->SectorsPerCluster;
 	totalSectors = currentRecord->TotalSectors;
-}
-
-// Отображение атрибутивной информации пользователю
-void driveClass::getAttributes(){
-	cout << "File system name:" << fsName << endl
-		 << "Bytes per sector:" << bytesPerSector << endl
-		 << "Sectors per cluster:" << sectorsPerCluster << endl
-		 << "Bytes per cluster:" << getBytesPerCluster() << endl
-		 << "Total clusters:" << getTotalClusters() << endl;
 }
 
 DWORD driveClass::getBytesPerCluster(){
