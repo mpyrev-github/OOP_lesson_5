@@ -6,7 +6,7 @@
 using namespace std;
 
 // Инициализация класса
-driveClass::driveClass() {
+driveClass::driveClass(const WCHAR *fileName) {
 	fileHandle = INVALID_HANDLE_VALUE;
 	currentRecord = NULL;
 	fsName = (unsigned char*)"";
@@ -15,10 +15,7 @@ driveClass::driveClass() {
 	totalSectors = 0;
 	numOfClustersToRead = 0;
 	firstClusterToRead = 0;
-}
 
-// Метод открытия диска
-HANDLE driveClass::open(const WCHAR *fileName) {
 	// Открываем раздел диска.
 	if ((fileHandle = CreateFileW(fileName,
 		GENERIC_READ,       					// Режим доступа
@@ -47,7 +44,6 @@ HANDLE driveClass::open(const WCHAR *fileName) {
 		system("pause");
 		exit(-1);
 	}
-	return fileHandle;
 }
 
 // Метод проверки ФС выбранного диска на совпадение с NTFS
@@ -56,7 +52,6 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 	BYTE *buffer;       			// Объявляем буфер для хранения загрузочной записи
 	bufferSize = 1024;				// Устанавливаем размер буфера
 	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
-	fileHandle = open(fileName);    // Использование вышеописанной функции
 
 	// Устанавливаем указатель на начало файла.
 	SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN);
@@ -83,7 +78,7 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 			system("pause");
 			return false;
 		} else {
-			setFsAttributes();          // При совпадении задаем свойства объекту
+			setAttributes();          // При совпадении задаем свойства объекту
 			return true;
 		}
 	}
@@ -92,13 +87,14 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 }
 
 // Метод придания свойств объекту
-void driveClass::setFsAttributes(){
+void driveClass::setAttributes(){
 	fsName = (unsigned char*)currentRecord->OEM_Name;
 	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;
 	sectorsPerCluster = currentRecord->SectorsPerCluster;
 	totalSectors = currentRecord->TotalSectors;
 }
 
+// Отображение атрибутивной информации пользователю
 void driveClass::getAttributes(){
 	cout << "File system name:" << fsName << endl
 		 << "Bytes per sector:" << bytesPerSector << endl
@@ -106,19 +102,7 @@ void driveClass::getAttributes(){
 		 << "Bytes per cluster:" << getBytesPerCluster() << endl
 		 << "Total clusters:" << getTotalClusters() << endl;
 }
-/*
-BYTE *driveClass::getFsName(){
-	return fsName;
-}
 
-DWORD driveClass::getBytesPerSector(){
-	return bytesPerSector;
-}
-
-DWORD driveClass::getSectorsPerCluster(){
-	return sectorsPerCluster;
-}
-*/
 DWORD driveClass::getBytesPerCluster(){
 	return bytesPerSector * sectorsPerCluster;
 }

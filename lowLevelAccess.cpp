@@ -47,28 +47,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	diskLetter += cin.get();
 	diskLetter += L":";
 
-	driveClass driveObj; // Создадим объект класса driveClass
+	driveClass* driveObj = new driveClass(diskLetter.c_str()); // Создадим объект класса driveClass
 
 	// Работа с свойствами и методами класса
-	if (!driveObj.checkBootRecord(diskLetter.c_str())) {        // Передаем букву диска и проверяем NTFS ли
+	if (!driveObj->checkBootRecord(diskLetter.c_str())) {        // Передаем букву диска и проверяем NTFS ли
 		 exit(-1);      // Если нет, то закрываем программу
 	} else {
-		driveObj.getAttributes();
-		cout /*<< "File system name:" << driveObj.getFsName() << endl
-			 << "Bytes per sector:" << driveObj.getBytesPerSector() << endl
-			 << "Sectors per cluster:" << driveObj.getSectorsPerCluster() << endl
-			 << "Bytes per cluster:" << driveObj.getBytesPerCluster() << endl
-			 << "Total clusters:" << driveObj.getTotalClusters() << endl*/
-			 << "How many clusters do you want to read?" << endl;
+		driveObj->getAttributes();
+		cout << "How many clusters do you want to read?" << endl;
 		DWORD numOfClustersBuf;
 		cin >> numOfClustersBuf;
-		driveObj.setNumOfClustersToRead(numOfClustersBuf);        // Узнаем у пользователя количество интересующих кластеров
+		driveObj->setNumOfClustersToRead(numOfClustersBuf);        // Узнаем у пользователя количество интересующих кластеров
 		cout <<	"Where to start? Available clusters: [0, "
-			 << driveObj.getTotalClusters()<<"]" << endl;
+			 << driveObj->getTotalClusters()<<"]" << endl;
 		DWORD firstClusterBuf;
 		cin >> firstClusterBuf;
-		driveObj.setFirstClusterToRead(firstClusterBuf);        // Узнаем у пользователя с какого кластера начать
-		driveObj.readClusters();
+		driveObj->setFirstClusterToRead(firstClusterBuf);        // Узнаем у пользователя с какого кластера начать
+		driveObj->readClusters();
 	}
 
 	system("pause");

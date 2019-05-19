@@ -28,26 +28,20 @@ protected:
 
 	ntfsBootRecord *currentRecord;	// Текущая загрузочная запись
 
-	HANDLE open(const WCHAR *fileName);     // Открытие диска
+    DWORD getBytesPerCluster();
 
-	DWORD getBytesPerCluster();
-
-	void setFsAttributes();                 // Запись атрибутов в свойства
+	void setAttributes();                 // Запись атрибутов в свойства
 	void printHexBuffer(BYTE * buffer);     // Отображение буффера в HEX виде
 	void close();                           // Закрытие диска
 
 public:
-	driveClass();                           		// Конструктор
+	driveClass(const WCHAR *fileName);                           		// Конструктор
 
 	void setNumOfClustersToRead(DWORD &numOfClusters);
 	void setFirstClusterToRead(DWORD &firstCluster);
 	void readClusters();                            // Вывод интересующих кластеров
 	void getAttributes();
-	/*
-	BYTE *getFsName();
 
-	DWORD getBytesPerSector();
-	DWORD getSectorsPerCluster(); */
 	DWORD getTotalClusters();
 
 	bool checkBootRecord(const WCHAR *fileName);    // Проверка на соответствие ФС к NTFS
