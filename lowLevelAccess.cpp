@@ -50,7 +50,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	driveClass* driveObj = new driveClass(diskLetter.c_str()); // Создадим объект класса driveClass
 
 	// Работа с свойствами и методами класса
-	if (!driveObj->checkBootRecord(diskLetter.c_str())) {        // Передаем букву диска и проверяем NTFS ли
+	if (!driveObj->checkBootRecord()) {        // Передаем букву диска и проверяем NTFS ли
 		 exit(-1);      // Если нет, то закрываем программу
 	} else {
 		driveObj->getAttributes();

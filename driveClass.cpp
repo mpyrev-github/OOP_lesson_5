@@ -1,7 +1,4 @@
 ﻿#include "driveClass.h"
-#include <iostream>
-#include <string>
-#include <iomanip>
 
 using namespace std;
 
@@ -71,7 +68,8 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize){
 }
 
 // Метод проверки ФС выбранного диска на совпадение с NTFS
-bool driveClass::checkBootRecord(const WCHAR *fileName) {
+bool driveClass::checkBootRecord() {
+
 	DWORD bufferSize;
 	BYTE *buffer;       			// Объявляем буфер для хранения загрузочной записи
 	bufferSize = 1024;				// Устанавливаем размер буфера
@@ -96,6 +94,7 @@ bool driveClass::checkBootRecord(const WCHAR *fileName) {
 	}
 
 delete[] buffer;
+
 }
 
 // Метод придания свойств объекту

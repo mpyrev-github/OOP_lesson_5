@@ -1,5 +1,10 @@
+#pragma once
+
 #include <windows.h>
 #include <string>
+#include <iostream>
+#include <string>
+#include <iomanip>
 
 #pragma pack(push, 1)
 
@@ -26,27 +31,27 @@ protected:
 	DWORD numOfClustersToRead;
 	DWORD firstClusterToRead;
 
-	ntfsBootRecord *currentRecord;	// Текущая загрузочная запись
+	DWORD getBytesPerCluster();
 
-    DWORD getBytesPerCluster();
-
-    BYTE *readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize);
-
-	void setAttributes();                 // Запись атрибутов в свойства
 	void printHexBuffer(BYTE * buffer);     // Отображение буффера в HEX виде
-	void close();                           // Закрытие диска
 
 public:
 	driveClass(const WCHAR *fileName);                           		// Конструктор
+
+	ntfsBootRecord *currentRecord;	// Текущая загрузочная запись
 
 	void setNumOfClustersToRead(DWORD &numOfClusters);
 	void setFirstClusterToRead(DWORD &firstCluster);
 	void readClusters();                            // Вывод интересующих кластеров
 	void getAttributes();
+	void close();                          // Закрытие диска
+	void setAttributes();                 // Запись атрибутов в свойства
+
+	BYTE *readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize);
 
 	DWORD getTotalClusters();
 
-	bool checkBootRecord(const WCHAR *fileName);    // Проверка на соответствие ФС к NTFS
+	bool checkBootRecord();    // Проверка на соответствие ФС к NTFS
 
 	~driveClass();                                  // Деструктор
 };
