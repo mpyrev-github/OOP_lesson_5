@@ -46,44 +46,56 @@ driveClass::driveClass(const WCHAR *fileName) {
 	}
 }
 
+BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize){
+	BYTE *buffer;
+	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
+	// Устанавливаем указатель на начало файла.
+	if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
+			close();
+			exit(GetLastError());
+	}
+
+	BOOL readResult = false;		// Инициализируем результат чтения файловой записи
+	DWORD bytesReturned = 0;
+
+    // Чтение данных в dataBuffer
+	readResult = ReadFile(fileHandle, buffer, bufferSize, &bytesReturned, NULL);
+
+	if(!readResult || bytesReturned != bufferSize) { // Обработка нарушения считывания диска
+		cout << "Read boot record error: " << GetLastError() << endl;
+		delete[] buffer;
+		close();
+		exit(GetLastError());
+	}
+	return buffer;
+}
+
 // Метод проверки ФС выбранного диска на совпадение с NTFS
 bool driveClass::checkBootRecord(const WCHAR *fileName) {
 	DWORD bufferSize;
 	BYTE *buffer;       			// Объявляем буфер для хранения загрузочной записи
 	bufferSize = 1024;				// Устанавливаем размер буфера
-	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
+	LARGE_INTEGER sectorOffset;
+	sectorOffset.QuadPart = 0;
 
-	// Устанавливаем указатель на начало файла.
-	SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN);
+	buffer = readRecords(sectorOffset,bufferSize);
 
-	BOOL readResult = false;		// Инициализируем результат чтения файловой записи
-	DWORD bytesReturned = 0;
+	currentRecord = (ntfsBootRecord *) buffer;
+	string ntfsName("NTFS    ");        // Сигнатура NTFS в записи OEM
+	string fsName ((char *)currentRecord->OEM_Name);        // Запишем текущую сигнатуру в переменную типа string
 
-	// Чтение секторов загрузочной записи.
-	readResult = ReadFile(fileHandle, buffer, bufferSize, &bytesReturned, NULL);
-	if (!readResult) {
-		cout << "Read boot record error: " << GetLastError() << endl;
-		delete[] buffer;
+	if (fsName != ntfsName) {      // Сравнение с известной сигнатурой
+		cout << "File system on this drive is not NTFS!" << endl    // Обработка несоответствия
+			 << "This file system doesn`t support!" << endl;
 		close();
-		exit (GetLastError());
+		system("pause");
+		return false;
 	} else {
-		currentRecord = (ntfsBootRecord *) buffer;
-		string ntfsName("NTFS    ");        // Сигнатура NTFS в записи OEM
-		string fsName ((char *)currentRecord->OEM_Name);        // Запишем текущую сигнатуру в переменную типа string
-
-		if (fsName != ntfsName) {      // Сравнение с известной сигнатурой
-			cout << "File system on this drive is not NTFS!" << endl    // Обработка несоответствия
-				 << "This file system doesn`t support!" << endl;
-			close();
-			system("pause");
-			return false;
-		} else {
-			setAttributes();          // При совпадении задаем свойства объекту
-			return true;
-		}
+		setAttributes();          // При совпадении задаем свойства объекту
+		return true;
 	}
 
-	delete[] buffer;
+delete[] buffer;
 }
 
 // Метод придания свойств объекту
@@ -127,26 +139,12 @@ void driveClass::readClusters() {
 	}
 
 	if ((firstClusterToRead <= getTotalClusters())) { // Проверка на корректность ввода
-		DWORD bytesReturned = 0;
+
 		DWORD bytesToRead = getBytesPerCluster() * numOfClustersToRead;
-		BYTE *dataBuffer = new BYTE[bytesToRead];       					// Выделяем память
 		LARGE_INTEGER sectorOffset;
 		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Задаем смещение
 
-		// При чтении данных с физического устройства смещение должно соответствовать границе сектора!
-		// Устанавливаем смещение
-		if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
-			close();
-			exit(GetLastError());
-		}
-
-		// Чтение данных в dataBuffer
-		bool readResult = ReadFile(fileHandle, dataBuffer, bytesToRead, &bytesReturned, NULL);
-
-		if(!readResult || bytesReturned != bytesToRead) { // Обработка нарушения считывания диска
-			close();
-			exit(GetLastError());
-		}
+		BYTE *dataBuffer = readRecords(sectorOffset,bytesToRead);
 
 		printHexBuffer(dataBuffer);     // Вывод в виде HEX значений
 		delete[] dataBuffer;

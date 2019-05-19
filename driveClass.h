@@ -30,6 +30,8 @@ protected:
 
     DWORD getBytesPerCluster();
 
+    BYTE *readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize);
+
 	void setAttributes();                 // Запись атрибутов в свойства
 	void printHexBuffer(BYTE * buffer);     // Отображение буффера в HEX виде
 	void close();                           // Закрытие диска
@@ -45,7 +47,6 @@ public:
 	DWORD getTotalClusters();
 
 	bool checkBootRecord(const WCHAR *fileName);    // Проверка на соответствие ФС к NTFS
-
 
 	~driveClass();                                  // Деструктор
 };
