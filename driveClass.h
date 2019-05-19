@@ -30,6 +30,8 @@ protected:
 
 	HANDLE open(const WCHAR *fileName);     // Открытие диска
 
+	DWORD getBytesPerCluster();
+
 	void setFsAttributes();                 // Запись атрибутов в свойства
 	void printHexBuffer(BYTE * buffer);     // Отображение буффера в HEX виде
 	void close();                           // Закрытие диска
@@ -40,12 +42,12 @@ public:
 	void setNumOfClustersToRead(DWORD &numOfClusters);
 	void setFirstClusterToRead(DWORD &firstCluster);
 	void readClusters();                            // Вывод интересующих кластеров
-
+	void getAttributes();
+	/*
 	BYTE *getFsName();
 
 	DWORD getBytesPerSector();
-	DWORD getSectorsPerCluster();
-	DWORD getBytesPerCluster();
+	DWORD getSectorsPerCluster(); */
 	DWORD getTotalClusters();
 
 	bool checkBootRecord(const WCHAR *fileName);    // Проверка на соответствие ФС к NTFS

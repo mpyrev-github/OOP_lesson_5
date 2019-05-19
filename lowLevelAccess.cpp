@@ -53,11 +53,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	if (!driveObj.checkBootRecord(diskLetter.c_str())) {        // Передаем букву диска и проверяем NTFS ли
 		 exit(-1);      // Если нет, то закрываем программу
 	} else {
-		cout << "File system name:" << driveObj.getFsName() << endl
+		driveObj.getAttributes();
+		cout /*<< "File system name:" << driveObj.getFsName() << endl
 			 << "Bytes per sector:" << driveObj.getBytesPerSector() << endl
 			 << "Sectors per cluster:" << driveObj.getSectorsPerCluster() << endl
 			 << "Bytes per cluster:" << driveObj.getBytesPerCluster() << endl
-			 << "Total clusters:" << driveObj.getTotalClusters() << endl
+			 << "Total clusters:" << driveObj.getTotalClusters() << endl*/
 			 << "How many clusters do you want to read?" << endl;
 		DWORD numOfClustersBuf;
 		cin >> numOfClustersBuf;

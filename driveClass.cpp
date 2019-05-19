@@ -99,6 +99,14 @@ void driveClass::setFsAttributes(){
 	totalSectors = currentRecord->TotalSectors;
 }
 
+void driveClass::getAttributes(){
+	cout << "File system name:" << fsName << endl
+		 << "Bytes per sector:" << bytesPerSector << endl
+		 << "Sectors per cluster:" << sectorsPerCluster << endl
+		 << "Bytes per cluster:" << getBytesPerCluster() << endl
+		 << "Total clusters:" << getTotalClusters() << endl;
+}
+/*
 BYTE *driveClass::getFsName(){
 	return fsName;
 }
@@ -110,7 +118,7 @@ DWORD driveClass::getBytesPerSector(){
 DWORD driveClass::getSectorsPerCluster(){
 	return sectorsPerCluster;
 }
-
+*/
 DWORD driveClass::getBytesPerCluster(){
 	return bytesPerSector * sectorsPerCluster;
 }
