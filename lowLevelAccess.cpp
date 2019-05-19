@@ -55,16 +55,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	// Работа с методами объектов класса fsClass
 	fsObj->getAttributes();
 
-		cout << "How many clusters do you want to read?" << endl;
-		DWORD numOfClustersBuf;
-		cin >> numOfClustersBuf;
-		driveObj->setNumOfClustersToRead(numOfClustersBuf);        // Узнаем у пользователя количество интересующих кластеров
-		cout <<	"Where to start? Available clusters: [0, "
-			 << fsObj->getTotalClusters()<<"]" << endl;
-		DWORD firstClusterBuf;
-		cin >> firstClusterBuf;
-		driveObj->setFirstClusterToRead(firstClusterBuf);        // Узнаем у пользователя с какого кластера начать
-		driveObj->readClusters();
+	cout << "How many clusters do you want to read?" << endl;
+	DWORD numOfClustersBuf;
+	cin >> numOfClustersBuf;
+	fsObj->setNumOfClustersToRead(numOfClustersBuf);        // Узнаем у пользователя количество интересующих кластеров
+	cout <<	"Where to start? Available clusters: [0, "
+		 << fsObj->getTotalClusters()-1<<"]" << endl;
+	DWORD firstClusterBuf;
+	cin >> firstClusterBuf;
+	fsObj->setFirstClusterToRead(firstClusterBuf);        // Узнаем у пользователя с какого кластера начать
+	fsObj->readClusters(driveObj->getFileHandle());
 
 	system("pause");
 	return 0;

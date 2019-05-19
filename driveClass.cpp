@@ -4,14 +4,7 @@ using namespace std;
 
 // Инициализация класса
 driveClass::driveClass(const WCHAR *fileName) {
-	fileHandle = INVALID_HANDLE_VALUE;
-	currentRecord = NULL;
-	fsName = (unsigned char*)"";
-	bytesPerSector = 0;
-	sectorsPerCluster = 0;
-	totalSectors = 0;
-	numOfClustersToRead = 0;
-	firstClusterToRead = 0;
+	//fileHandle = INVALID_HANDLE_VALUE;
 
 	// Открываем раздел диска.
 	if ((fileHandle = CreateFileW(fileName,
@@ -43,12 +36,19 @@ driveClass::driveClass(const WCHAR *fileName) {
 	}
 }
 
-BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize){
+HANDLE driveClass::getFileHandle(){
+	return fileHandle;
+}
+
+BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize,HANDLE fileHandle){
 	BYTE *buffer;
 	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
+
 	// Устанавливаем указатель на начало файла.
 	if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
-			close();
+			cout << "Set File Pointer Error: " << GetLastError() << endl;
+			delete[] buffer;
+			system("pause");
 			exit(GetLastError());
 	}
 
@@ -61,63 +61,15 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize){
 	if(!readResult || bytesReturned != bufferSize) { // Обработка нарушения считывания диска
 		cout << "Read boot record error: " << GetLastError() << endl;
 		delete[] buffer;
-		close();
+        system("pause");
 		exit(GetLastError());
 	}
 	return buffer;
 }
 
-// Метод придания свойств объекту
-void driveClass::setAttributes(){
-	fsName = (unsigned char*)currentRecord->OEM_Name;
-	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;
-	sectorsPerCluster = currentRecord->SectorsPerCluster;
-	totalSectors = currentRecord->TotalSectors;
-}
-
-DWORD driveClass::getBytesPerCluster(){
-	return bytesPerSector * sectorsPerCluster;
-}
-
-DWORD driveClass::getTotalClusters(){
-	return totalSectors / sectorsPerCluster;
-}
-
-void driveClass::setNumOfClustersToRead(DWORD &numOfClusters){
-	numOfClustersToRead = numOfClusters;
-}
-
-void driveClass::setFirstClusterToRead(DWORD &firstCluster){
-	firstClusterToRead = firstCluster;
-}
-
-// Метод чтения заданных пользователем кластеров
-void driveClass::readClusters() {
-	if (numOfClustersToRead == 0) {
-		cout << "Nothing to print." << endl;
-		return;
-	}
-
-	if ((firstClusterToRead <= getTotalClusters())) { // Проверка на корректность ввода
-
-		DWORD bytesToRead = getBytesPerCluster() * numOfClustersToRead;
-		LARGE_INTEGER sectorOffset;
-		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Задаем смещение
-
-		BYTE *dataBuffer = readRecords(sectorOffset,bytesToRead);
-
-		printHexBuffer(dataBuffer);     // Вывод в виде HEX значений
-		delete[] dataBuffer;
-	} else {
-		cout << "Choosen sector unavailable.";
-	}
-
-	close();
-}
-
 // Метод вывода буффера в HEX виде
-void driveClass::printHexBuffer(BYTE * buffer){
-    for (int i = 1; i < getBytesPerCluster() * numOfClustersToRead + 1; i++) {
+void driveClass::printHexBuffer(BYTE * buffer, DWORD bufferSize){
+	for (int i = 1; i < bufferSize + 1; i++) {
 		cout << hex << setw(2) << setfill('0') << DWORD(buffer[i - 1]) << " ";
 
 		if (i % 16 == 0) {
@@ -129,10 +81,6 @@ void driveClass::printHexBuffer(BYTE * buffer){
 		}
 	}
     delete[] buffer;
-}
-
-void driveClass::close() {
-	CloseHandle(fileHandle);
 }
 
 driveClass::~driveClass() {
