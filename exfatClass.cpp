@@ -25,16 +25,30 @@ using namespace std;
 
 exfatClass::exfatClass(driveClass* driveObj) : fsClass(driveObj)
 {
-    LARGE_INTEGER sectorOffset;
+	LARGE_INTEGER sectorOffset;
 	sectorOffset.QuadPart = 0;
 	exfatBootRecord *currentRecord = (exfatBootRecord*)driveObj->readRecords(sectorOffset, 1024, driveObj->getFileHandle());
 
-    // Придаем свойства объекту
+	// Придаем свойства объекту
 	bytesPerSector = (DWORD) currentRecord->SectorFactor;
 	bytesPerSector = pow(2, bytesPerSector);
 	sectorsPerCluster = currentRecord->ClusterFactor;
 	sectorsPerCluster = pow(2, sectorsPerCluster);
+	firstDataSector = currentRecord->FirstDataSector;
+	totalClusters = currentRecord->TotalClusters;
 	totalSectors = currentRecord->TotalSectors;
+}
+
+DWORD exfatClass::getFirstClusterNum(){
+	return 2;
+}
+
+DWORD exfatClass::getTotalClusters(){
+	return totalClusters;
+}
+
+DWORD exfatClass::getFsClustersOffset(){
+	return firstDataSector / sectorsPerCluster;
 }
 
 string exfatClass::getFsName()

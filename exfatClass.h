@@ -7,10 +7,16 @@ using namespace std;
 
 class exfatClass : public fsClass
 {
+private:
+	DWORD totalClusters;
+	DWORD firstDataSector;
 public:
 	exfatClass(driveClass* driveObj);
 
-	string getFsName() override;
+	virtual DWORD getFirstClusterNum() override;
+	virtual DWORD getTotalClusters() override;
+	virtual DWORD getFsClustersOffset() override;
+	virtual string getFsName() override;
 
 	~exfatClass();
 };

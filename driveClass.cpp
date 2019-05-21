@@ -69,6 +69,7 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize,HANDLE
 
 // Метод вывода буффера в HEX виде
 void driveClass::printHexBuffer(BYTE * buffer, DWORD bufferSize){
+	cout << "[----------------------   ----------------------]" << endl;
 	for (int i = 1; i < bufferSize + 1; i++) {
 		cout << hex << setw(2) << setfill('0') << DWORD(buffer[i - 1]) << " ";
 
@@ -80,6 +81,7 @@ void driveClass::printHexBuffer(BYTE * buffer, DWORD bufferSize){
 			cout << "  ";
 		}
 	}
+	cout << "[----------------------   ----------------------]" << endl;
     delete[] buffer;
 }
 

@@ -10,7 +10,10 @@ class ntfsClass : public fsClass
 public:
 	ntfsClass(driveClass* driveObj);
 
-	string getFsName() override;
+	virtual DWORD getFirstClusterNum() override;
+	virtual DWORD getTotalClusters() override;
+	virtual DWORD getFsClustersOffset() override;
+	virtual string getFsName() override;
 
 	~ntfsClass();
 };

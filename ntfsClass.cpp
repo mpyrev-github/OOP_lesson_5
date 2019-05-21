@@ -27,6 +27,18 @@ ntfsClass::ntfsClass(driveClass* driveObj) : fsClass(driveObj)
 	totalSectors = currentRecord->TotalSectors;
 }
 
+DWORD ntfsClass::getFirstClusterNum(){
+	return 0;
+}
+
+DWORD ntfsClass::getTotalClusters(){
+	return totalSectors / sectorsPerCluster;
+}
+
+DWORD ntfsClass::getFsClustersOffset(){
+	return 0;
+}
+
 string ntfsClass::getFsName()
 {
 	return "NTFS";

@@ -20,35 +20,40 @@ DWORD fsClass::getBytesPerCluster(){
 	return bytesPerSector * sectorsPerCluster;
 }
 
-DWORD fsClass::getTotalClusters(){
-	return totalSectors / sectorsPerCluster;
+// Узнаем у пользователя количество интересующих кластеров
+void fsClass::setNumOfClustersToRead(){
+	tryAgainEnterNumOfClusters:
+	cout << "How many clusters do you want to read?" << endl;
+	cin >> numOfClustersToRead;
+	if (numOfClustersToRead == 0) {
+		cout << "Nothing to print." << endl;
+		goto tryAgainEnterNumOfClusters;
+	}
 }
 
-void fsClass::setNumOfClustersToRead(DWORD &numOfClusters){
-	numOfClustersToRead = numOfClusters;
-}
-
-void fsClass::setFirstClusterToRead(DWORD &firstCluster){
-	firstClusterToRead = firstCluster;
+void fsClass::setFirstClusterToRead(){
+	tryAgainEnterFirstCluster:
+	cout <<	"Where to start? Available clusters: [" << getFirstClusterNum() << ", "
+		 << getTotalClusters() - 1 + getFirstClusterNum() << "]" << endl;
+	cin >> firstClusterToRead;
+	if ((firstClusterToRead < getFirstClusterNum() || firstClusterToRead >= getTotalClusters())) { // Проверка на корректность ввода
+		cout << "Choosen sector unavailable." << endl;
+		goto tryAgainEnterFirstCluster;
+	}
+	firstClusterToRead += getFsClustersOffset() - getFirstClusterNum();
 }
 
 // Метод чтения заданных пользователем кластеров
 void fsClass::readClusters(HANDLE fileHandle) {
-	if (numOfClustersToRead == 0) {
-		cout << "Nothing to print." << endl;
-		return;
-	}
-	if ((firstClusterToRead <= getTotalClusters())) { // Проверка на корректность ввода
-
 		DWORD bytesToRead = getBytesPerCluster() * numOfClustersToRead;
 		LARGE_INTEGER sectorOffset;
 		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Задаем смещение
+		numOfClustersToRead == 1 ?
+		cout << endl << "Sector by offset:" << sectorOffset.QuadPart << endl:
+		cout << endl << "Sectors by offset:" << sectorOffset.QuadPart << endl;
 		BYTE *dataBuffer = driveObj->readRecords(sectorOffset,bytesToRead,fileHandle);
 		driveObj->printHexBuffer(dataBuffer, bytesToRead);     // Вывод в виде HEX значений
 		delete[] dataBuffer;
-	} else {
-		cout << "Choosen sector unavailable.";
-	}
 }
 
 fsClass::~fsClass(){

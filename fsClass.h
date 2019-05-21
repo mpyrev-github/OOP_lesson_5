@@ -21,15 +21,18 @@ protected:
 
 	DWORD getBytesPerCluster();
 
+	virtual DWORD getTotalClusters() = 0;
+	virtual DWORD getFirstClusterNum() = 0;
+	virtual DWORD getFsClustersOffset() = 0;
+
 public:
 	fsClass(driveClass* driveObj);
 
-	DWORD getTotalClusters();
-
-	void setNumOfClustersToRead(DWORD &numOfClusters);
-	void setFirstClusterToRead(DWORD &firstCluster);
+	void setNumOfClustersToRead();
+	void setFirstClusterToRead();
 	void getAttributes();
 	void readClusters(HANDLE fileHandle);
+
 
 	virtual string getFsName() = 0;
 
