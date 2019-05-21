@@ -27,7 +27,7 @@ exfatClass::exfatClass(driveClass* driveObj) : fsClass(driveObj)
 {
 	LARGE_INTEGER sectorOffset;
 	sectorOffset.QuadPart = 0;
-	exfatBootRecord *currentRecord = (exfatBootRecord*)driveObj->readRecords(sectorOffset, 1024, driveObj->getFileHandle());
+	exfatBootRecord *currentRecord = (exfatBootRecord*)driveObj->readRecords(sectorOffset, 1024);
 
 	// Придаем свойства объекту
 	bytesPerSector = (DWORD) currentRecord->SectorFactor;

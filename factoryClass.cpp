@@ -19,7 +19,7 @@ fsClass* factoryClass::objCreator(driveClass* driveObj)
 {
 	LARGE_INTEGER sectorOffset;
 	sectorOffset.QuadPart = 0;
-	fsOEMname *currentOEM = (fsOEMname*)driveObj->readRecords(sectorOffset, 1024,driveObj->getFileHandle());
+	fsOEMname *currentOEM = (fsOEMname*)driveObj->readRecords(sectorOffset, 1024);
 
 	hash<string> hash_fn;
 	switch ((unsigned int) hash_fn(currentOEM->OEM_Name)) {

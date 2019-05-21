@@ -40,7 +40,7 @@ HANDLE driveClass::getFileHandle(){
 	return fileHandle;
 }
 
-BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize,HANDLE fileHandle){
+BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bufferSize){
 	BYTE *buffer;
 	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
 

@@ -57,7 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	fsObj->setNumOfClustersToRead();        // Узнаем у пользователя количество интересующих кластеров
 	fsObj->setFirstClusterToRead();        // Узнаем у пользователя с какого кластера начать
-	fsObj->readClusters(driveObj->getFileHandle());
+	fsObj->readClusters();
 
 	system("pause");
 	return 0;

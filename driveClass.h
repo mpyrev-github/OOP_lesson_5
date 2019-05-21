@@ -15,7 +15,7 @@ public:
 
 	HANDLE getFileHandle();
 
-	BYTE *readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize, HANDLE fileHandle);
+	BYTE *readRecords(LARGE_INTEGER sectorOffset,DWORD bufferSize);
 
 	void printHexBuffer(BYTE * buffer, DWORD bufferSize);     // Отображение буффера в HEX виде
 

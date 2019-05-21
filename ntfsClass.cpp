@@ -19,7 +19,7 @@ ntfsClass::ntfsClass(driveClass* driveObj) : fsClass(driveObj)
 {
     LARGE_INTEGER sectorOffset;
 	sectorOffset.QuadPart = 0;
-	ntfsBootRecord *currentRecord = (ntfsBootRecord*)driveObj->readRecords(sectorOffset, 1024, driveObj->getFileHandle());
+	ntfsBootRecord *currentRecord = (ntfsBootRecord*)driveObj->readRecords(sectorOffset, 1024);
 
     // Придаем свойства объекту
 	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;

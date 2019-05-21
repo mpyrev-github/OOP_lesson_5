@@ -31,7 +31,7 @@ public:
 	void setNumOfClustersToRead();
 	void setFirstClusterToRead();
 	void getAttributes();
-	void readClusters(HANDLE fileHandle);
+	void readClusters();
 
 
 	virtual string getFsName() = 0;

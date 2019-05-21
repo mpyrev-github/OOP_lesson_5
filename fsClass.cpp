@@ -4,7 +4,7 @@
 using namespace std;
 
 fsClass::fsClass(driveClass* driveObj){
-	driveObj = driveObj;
+	this->driveObj = driveObj;
 }
 
 // Отображение атрибутивной информации пользователю
@@ -36,7 +36,7 @@ void fsClass::setFirstClusterToRead(){
 	cout <<	"Where to start? Available clusters: [" << getFirstClusterNum() << ", "
 		 << getTotalClusters() - 1 + getFirstClusterNum() << "]" << endl;
 	cin >> firstClusterToRead;
-	if ((firstClusterToRead < getFirstClusterNum() || firstClusterToRead >= getTotalClusters())) { // Проверка на корректность ввода
+	if ((firstClusterToRead < getFirstClusterNum() || firstClusterToRead >= (getTotalClusters() + getFirstClusterNum()))) { // Проверка на корректность ввода
 		cout << "Choosen sector unavailable." << endl;
 		goto tryAgainEnterFirstCluster;
 	}
@@ -44,14 +44,14 @@ void fsClass::setFirstClusterToRead(){
 }
 
 // Метод чтения заданных пользователем кластеров
-void fsClass::readClusters(HANDLE fileHandle) {
+void fsClass::readClusters(){
 		DWORD bytesToRead = getBytesPerCluster() * numOfClustersToRead;
 		LARGE_INTEGER sectorOffset;
 		sectorOffset.QuadPart = firstClusterToRead * getBytesPerCluster();  // Задаем смещение
 		numOfClustersToRead == 1 ?
 		cout << endl << "Sector by offset:" << sectorOffset.QuadPart << endl:
 		cout << endl << "Sectors by offset:" << sectorOffset.QuadPart << endl;
-		BYTE *dataBuffer = driveObj->readRecords(sectorOffset,bytesToRead,fileHandle);
+		BYTE *dataBuffer = driveObj->readRecords(sectorOffset, bytesToRead);
 		driveObj->printHexBuffer(dataBuffer, bytesToRead);     // Вывод в виде HEX значений
 		delete[] dataBuffer;
 }
