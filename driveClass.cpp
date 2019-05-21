@@ -44,7 +44,7 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bufferSize){
 	BYTE *buffer;
 	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
 
-	// Устанавливаем указатель на начало файла.
+	// Устанавливаем указатель на позицию по смещению.
 	if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
 			cout << "Set File Pointer Error: " << GetLastError() << endl;
 			delete[] buffer;
@@ -55,13 +55,13 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bufferSize){
 	BOOL readResult = false;		// Инициализируем результат чтения файловой записи
 	DWORD bytesReturned = 0;
 
-    // Чтение данных в dataBuffer
+	// Чтение данных в buffer
 	readResult = ReadFile(fileHandle, buffer, bufferSize, &bytesReturned, NULL);
 
 	if(!readResult || bytesReturned != bufferSize) { // Обработка нарушения считывания диска
 		cout << "Read boot record error: " << GetLastError() << endl;
 		delete[] buffer;
-        system("pause");
+		system("pause");
 		exit(GetLastError());
 	}
 	return buffer;

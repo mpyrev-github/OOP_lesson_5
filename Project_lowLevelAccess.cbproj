@@ -119,6 +119,12 @@
         <None Include="fsClass.h">
             <BuildOrder>5</BuildOrder>
         </None>
+        <CppCompile Include="iteratorClass.cpp">
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <None Include="iteratorClass.h">
+            <BuildOrder>13</BuildOrder>
+        </None>
         <CppCompile Include="lowLevelAccess.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
