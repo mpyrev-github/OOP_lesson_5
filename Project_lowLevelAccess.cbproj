@@ -113,6 +113,12 @@
         <None Include="factoryClass.h">
             <BuildOrder>7</BuildOrder>
         </None>
+        <CppCompile Include="fatClass.cpp">
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <None Include="fatClass.h">
+            <BuildOrder>15</BuildOrder>
+        </None>
         <CppCompile Include="fsClass.cpp">
             <BuildOrder>4</BuildOrder>
         </CppCompile>

@@ -35,4 +35,4 @@ BYTE* clusterIterator::GetCurrent(){
 	}
 
 	return buffer;
-}
+}*/

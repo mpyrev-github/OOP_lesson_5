@@ -35,7 +35,7 @@ DWORD ntfsClass::getTotalClusters(){
 	return totalSectors / sectorsPerCluster;
 }
 
-DWORD ntfsClass::getFsClustersOffset(){
+double ntfsClass::getFsClustersOffset(){
 	return 0;
 }
 

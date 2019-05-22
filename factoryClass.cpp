@@ -2,6 +2,7 @@
 #include "factoryClass.h"
 #include "ntfsClass.h"
 #include "exfatClass.h"
+#include "fatClass.h"
 #include "string.h"
 #include <functional>
 
@@ -29,8 +30,10 @@ fsClass* factoryClass::objCreator(driveClass* driveObj)
 		break;
 	case 968235445:
 		return new exfatClass(driveObj);
+	case 2150569743:
+		return new fatClass(driveObj);
 	default:
-        cout << "This file system doesn`t support!" << endl;   // Обработка несоответствия
+		cout << "This file system doesn`t support!" << endl;   // Обработка несоответствия
 		system("pause");
 		return 0;
 		break;

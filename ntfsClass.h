@@ -12,7 +12,7 @@ public:
 
 	virtual DWORD getFirstClusterNum() override;
 	virtual DWORD getTotalClusters() override;
-	virtual DWORD getFsClustersOffset() override;
+	virtual double getFsClustersOffset() override;
 	virtual string getFsName() override;
 
 	~ntfsClass();

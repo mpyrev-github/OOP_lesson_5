@@ -47,7 +47,7 @@ DWORD exfatClass::getTotalClusters(){
 	return totalClusters;
 }
 
-DWORD exfatClass::getFsClustersOffset(){
+double exfatClass::getFsClustersOffset(){
 	return firstDataSector / sectorsPerCluster;
 }
 
