@@ -27,7 +27,7 @@ exfatClass::exfatClass(driveClass* driveObj) : fsClass(driveObj)
 {
 	LARGE_INTEGER sectorOffset;
 	sectorOffset.QuadPart = 0;
-	exfatBootRecord *currentRecord = (exfatBootRecord*)driveObj->readRecords(sectorOffset, 1024);
+	exfatBootRecord *currentRecord = (exfatBootRecord*)driveObj->readRecords(sectorOffset, 1024, 1);
 
 	// Придаем свойства объекту
 	bytesPerSector = (DWORD) currentRecord->SectorFactor;
@@ -47,7 +47,7 @@ DWORD exfatClass::getTotalClusters(){
 	return totalClusters;
 }
 
-double exfatClass::getFsClustersOffset(){
+FLOAT exfatClass::getFsClustersOffset(){
 	return firstDataSector / sectorsPerCluster;
 }
 

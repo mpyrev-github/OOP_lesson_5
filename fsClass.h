@@ -13,17 +13,17 @@ protected:
 	driveClass* driveObj;
 
 	DWORD bytesPerSector;
-	double sectorsPerCluster;
+	FLOAT sectorsPerCluster;
 	DWORD totalSectors;
 
-	DWORD numOfClustersToRead;
-	FLOAT firstClusterToRead;
+	DWORD numOfClustersToRead = 0;
+	FLOAT firstClusterToRead = 0;
 
 	DWORD getBytesPerCluster();
 
 	virtual DWORD getTotalClusters() = 0;
 	virtual DWORD getFirstClusterNum() = 0;
-	virtual double getFsClustersOffset() = 0;
+	virtual FLOAT getFsClustersOffset() = 0;
 
 public:
 	fsClass(driveClass* driveObj);
@@ -32,7 +32,6 @@ public:
 	void setFirstClusterToRead();
 	void getAttributes();
 	void readClusters();
-
 
 	virtual string getFsName() = 0;
 

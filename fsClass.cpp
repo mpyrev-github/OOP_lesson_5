@@ -51,7 +51,7 @@ void fsClass::readClusters(){
 		numOfClustersToRead == 1 ?
 		cout << endl << "Sector by offset:" << sectorOffset.QuadPart << endl:
 		cout << endl << "Sectors by offset:" << sectorOffset.QuadPart << endl;
-		BYTE *dataBuffer = driveObj->readRecords(sectorOffset, bytesToRead);
+		BYTE *dataBuffer = driveObj->readRecords(sectorOffset, getBytesPerCluster(), numOfClustersToRead);
 		driveObj->printHexBuffer(dataBuffer, bytesToRead);     // Вывод в виде HEX значений
 		delete[] dataBuffer;
 }

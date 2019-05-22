@@ -40,30 +40,16 @@ HANDLE driveClass::getFileHandle(){
 	return fileHandle;
 }
 
-BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bufferSize){
-	BYTE *buffer;
-	buffer = new BYTE[bufferSize];	// Выделение памяти для буфера указанного размера
+BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster, DWORD numOfClustersToRead){
 
-	// Устанавливаем указатель на позицию по смещению.
-	if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
-			cout << "Set File Pointer Error: " << GetLastError() << endl;
-			delete[] buffer;
-			system("pause");
-			exit(GetLastError());
+	BYTE* buffer = new BYTE;
+	clusterIterator * iterator = new clusterIterator(fileHandle, sectorOffset, bytesPerCluster, numOfClustersToRead);
+	iterator->First();
+	for(iterator->First(); !iterator->IsDone(); iterator->Next())
+	{
+		buffer = iterator->GetCurrent();
 	}
 
-	BOOL readResult = false;		// Инициализируем результат чтения файловой записи
-	DWORD bytesReturned = 0;
-
-	// Чтение данных в buffer
-	readResult = ReadFile(fileHandle, buffer, bufferSize, &bytesReturned, NULL);
-
-	if(!readResult || bytesReturned != bufferSize) { // Обработка нарушения считывания диска
-		cout << "Read boot record error: " << GetLastError() << endl;
-		delete[] buffer;
-		system("pause");
-		exit(GetLastError());
-	}
 	return buffer;
 }
 

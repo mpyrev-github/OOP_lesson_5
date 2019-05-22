@@ -15,7 +15,7 @@ public:
 
 	virtual DWORD getFirstClusterNum() override;
 	virtual DWORD getTotalClusters() override;
-	virtual double getFsClustersOffset() override;
+	virtual FLOAT getFsClustersOffset() override;
 	virtual string getFsName() override;
 
 	~exfatClass();
