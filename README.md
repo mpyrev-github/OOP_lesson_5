@@ -3,13 +3,13 @@
 * [Русская версия](https://github.com/vastXgithub/OOP_lesson_5/blob/master/README.md#%D0%BE%D0%BE%D0%BF)
 # OOP
 ## Lesson 5
-This is the fifth project for course of OOP from Dmitry Khorkov. <br /> In this project there was the following task: <br /> To write a program intended for low-level access to the data of the NTFS file system.
+This is the fifth project for course of OOP from Dmitry Khorkov. <br /> In this project there was the following task: <br /> To write a program intended for low-level access to the data of the NTFS, FAT12/16, FAT32, exFAT file system.
 ### Realized program functionality:
+* Select a drive from the list of available.
 * Opening a disk.
-* Check that the disk being opened contains the NTFS file system (by OEM name in the boot record).
+* Check that the disk being opened contains the NTFS, FAT12/16, FAT32, exFAT file system (by OEM name in the boot record).
 * Reading and saving service information about the file system.
 * Read the specified file system cluster in the buffer passed as a parameter.
-* Closing the disk.
 ### Try the program
 1. If you want to try my program, you can [download](https://github.com/vastXgithub/OOP_lesson_5/archive/master.zip) project.
 2. Run the project and create (*Make*) \*.exe-file.
@@ -28,13 +28,13 @@ If you want to download the project as a .zip file, please [click here](https://
 
 # ООП
 ## Урок 5
-Это пятый проект по курсу ООП от Дмитрия Хорькова.<br />В этом проекте стояла следующая задача:<br />Написать программу, предназначенную для низкоуровневого доступа к данным файловой системы NTFS.
+Это пятый проект по курсу ООП от Дмитрия Хорькова.<br />В этом проекте стояла следующая задача:<br />Написать программу, предназначенную для низкоуровневого доступа к данным файловой системы NTFS, FAT12/16, FAT32, exFAT.
 ### Реализованный функционал программы:
+* Выбор диска из списка доступных.
 * Открытие диска.
-* Проверка того, что открываемый диск содержит файловую систему NTFS (по OEM-имени в загрузочной записи).
+* Проверка того, что открываемый диск содержит файловую систему NTFS, FAT12/16, FAT32, exFAT (по OEM-имени в загрузочной записи).
 * Считывание и сохранение служебной информации о файловой системе.
 * Считывание заданного кластера файловой системы в буфер, передаваемый в качестве параметра.
-* Закрытие диска.
 ### Попробовать программу
 1. Если вы хотите попробовать мою программу, вы можете [скачать](https://github.com/vastXgithub/OOP_lesson_5/archive/master.zip) проект.
 2. Запустить проект и создать (*Make*) \*.exe-файл.
