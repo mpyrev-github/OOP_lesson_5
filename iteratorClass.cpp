@@ -1,4 +1,4 @@
-#include "iteratorClass.h"
+п»ї#include "iteratorClass.h"
 
 using namespace std;
 
@@ -30,19 +30,19 @@ BYTE* clusterIterator::GetCurrent(){
 	BYTE* buffer;
 	buffer = new BYTE[bytesPerCluster];
 
-	// Устанавливаем указатель на позицию по смещению.
+	// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРѕР·РёС†РёСЋ РїРѕ СЃРјРµС‰РµРЅРёСЋ.
 	if (!SetFilePointerEx(fileHandle, sectorOffset, NULL, FILE_BEGIN)) {
 			cout << "Set File Pointer Error: " << GetLastError() << endl;
 			system("pause");
 			exit(GetLastError());
 	}
-	BOOL readResult = false;		// Инициализируем результат чтения файловой записи
+	BOOL readResult = false;		// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂРµР·СѓР»СЊС‚Р°С‚ С‡С‚РµРЅРёСЏ С„Р°Р№Р»РѕРІРѕР№ Р·Р°РїРёСЃРё
 	DWORD bytesReturned = 0;
 
-	// Чтение данных в buffer
+	// Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РІ buffer
 	readResult = ReadFile(fileHandle, buffer, bytesPerCluster, &bytesReturned, NULL);
 
-	if(!readResult || bytesReturned != bytesPerCluster) { // Обработка нарушения считывания диска
+	if(!readResult || bytesReturned != bytesPerCluster) { // РћР±СЂР°Р±РѕС‚РєР° РЅР°СЂСѓС€РµРЅРёСЏ СЃС‡РёС‚С‹РІР°РЅРёСЏ РґРёСЃРєР°
 		cout << "Read boot record error: " << GetLastError() << endl;
 		delete[] buffer;
 		system("pause");

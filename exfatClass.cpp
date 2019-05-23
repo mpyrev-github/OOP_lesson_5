@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <windows.h>
 #include <cmath>
 
@@ -6,18 +6,18 @@
 
 typedef struct
 {
-	BYTE Offset_OEM[3];           	// Ñìåùåíèå äî èìåíè ôàéëîâîé ñèñòåìû
-	BYTE OEM_Name[8];             	// Èìÿ ôàéëîâîé ñèñòåìû
-	BYTE Offset_TotalSectors[61]; 	// Ñìåùåíèå äî çíà÷åíèÿ êîëè÷åñòâà ñåêòîðîâ â ÔÑ
-	ULONGLONG TotalSectors; 		// Êîëè÷åñòâî ñåêòîðîâ â ôàéëîâîé ñèñòåìå
-	DWORD FATStartSector; 			// Ñåêòîð â êîòîðîì íà÷èíàåòñÿ exFAT
-	DWORD FATSizeInSectors; 		// Ðàçìåð exFAT â ñåêòîðàõ
-	DWORD FirstDataSector; 			// Ñåêòîð â êîòîðîì íà÷èíàåòñÿ áèòîâàÿ êàðòà êëàñòåðîâ
-	DWORD TotalClusters; 			// Êîëè÷åñòâî êëàñòåðîâ â ôàéëîâîé ñèñòåìå
-	DWORD RootDirCluster; 			// Êëàñòåð, â êîòîðîì íàõîäèòñÿ êîðíåâîé êàòàëîã
-	BYTE Offset_SectorFactor[8];	// Ñìåùåíèå äî çíà÷åíèÿ còåïåíè ðàçìåðà ñåêòîðà â áàéòàõ
-	BYTE SectorFactor; 				// Ñòåïåíü ðàçìåðà ñåêòîðà â áàéòàõ
-	BYTE ClusterFactor; 			// Ñòåïåíü ðàçìåðà êëàñòåðà â áàéòàõ
+	BYTE Offset_OEM[3];           	// Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
+	BYTE OEM_Name[8];             	// Ð˜Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
+	BYTE Offset_TotalSectors[61]; 	// Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð° ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² Ð¤Ð¡
+	ULONGLONG TotalSectors; 		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ
+	DWORD FATStartSector; 			// Ð¡ÐµÐºÑ‚Ð¾Ñ€ Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ‡Ð¸Ð½Ð°ÐµÑ‚ÑÑ exFAT
+	DWORD FATSizeInSectors; 		// Ð Ð°Ð·Ð¼ÐµÑ€ exFAT Ð² ÑÐµÐºÑ‚Ð¾Ñ€Ð°Ñ…
+	DWORD FirstDataSector; 			// Ð¡ÐµÐºÑ‚Ð¾Ñ€ Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ‡Ð¸Ð½Ð°ÐµÑ‚ÑÑ Ð±Ð¸Ñ‚Ð¾Ð²Ð°Ñ ÐºÐ°Ñ€Ñ‚Ð° ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ð¾Ð²
+	DWORD TotalClusters; 			// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ð¾Ð² Ð² Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ
+	DWORD RootDirCluster; 			// ÐšÐ»Ð°ÑÑ‚ÐµÑ€, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³
+	BYTE Offset_SectorFactor[8];	// Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ cÑ‚ÐµÐ¿ÐµÐ½Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° ÑÐµÐºÑ‚Ð¾Ñ€Ð° Ð² Ð±Ð°Ð¹Ñ‚Ð°Ñ…
+	BYTE SectorFactor; 				// Ð¡Ñ‚ÐµÐ¿ÐµÐ½ÑŒ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° ÑÐµÐºÑ‚Ð¾Ñ€Ð° Ð² Ð±Ð°Ð¹Ñ‚Ð°Ñ…
+	BYTE ClusterFactor; 			// Ð¡Ñ‚ÐµÐ¿ÐµÐ½ÑŒ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ð° Ð² Ð±Ð°Ð¹Ñ‚Ð°Ñ…
 
 } exfatBootRecord;
 
@@ -29,7 +29,7 @@ exfatClass::exfatClass(driveClass* driveObj) : fsClass(driveObj)
 	sectorOffset.QuadPart = 0;
 	exfatBootRecord *currentRecord = (exfatBootRecord*)driveObj->readRecords(sectorOffset, 1024, 1);
 
-	// Ïðèäàåì ñâîéñòâà îáúåêòó
+	// ÐŸÑ€Ð¸Ð´Ð°ÐµÐ¼ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° Ð¾Ð±ÑŠÐµÐºÑ‚Ñƒ
 	bytesPerSector = (DWORD) currentRecord->SectorFactor;
 	bytesPerSector = pow(2, bytesPerSector);
 	sectorsPerCluster = currentRecord->ClusterFactor;

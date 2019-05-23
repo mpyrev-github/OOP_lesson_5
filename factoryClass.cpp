@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include "factoryClass.h"
 #include "ntfsClass.h"
 #include "exfatClass.h"
@@ -10,8 +10,8 @@ using namespace std;
 
 typedef struct
 {
-	BYTE Offset_OEM[3];           // Смещение до имени файловой системы
-	char OEM_Name[8];             // Имя файловой системы
+	BYTE Offset_OEM[3];           // РЎРјРµС‰РµРЅРёРµ РґРѕ РёРјРµРЅРё С„Р°Р№Р»РѕРІРѕР№ СЃРёСЃС‚РµРјС‹
+	char OEM_Name[8];             // РРјСЏ С„Р°Р№Р»РѕРІРѕР№ СЃРёСЃС‚РµРјС‹
 } fsOEMname;
 
 factoryClass::factoryClass() { }
@@ -34,7 +34,7 @@ fsClass* factoryClass::objCreator(driveClass* driveObj)
 	case 2150569743:
 		return new fatClass(driveObj);
 	default:
-		cout << "This file system doesn`t support!" << endl;   // Обработка несоответствия
+		cout << "This file system doesn`t support!" << endl;   // РћР±СЂР°Р±РѕС‚РєР° РЅРµСЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ
 		system("pause");
 		return 0;
 		break;

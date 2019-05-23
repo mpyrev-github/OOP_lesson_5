@@ -1,15 +1,15 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <windows.h>
 #include "ntfsClass.h"
 
 typedef struct
 {
-	BYTE Offset_OEM[3];           // Ñìåùåíèå äî èìåíè ôàéëîâîé ñèñòåìû
-	BYTE OEM_Name[8];             // Èìÿ ôàéëîâîé ñèñòåìû
-	BYTE BytesPerSector[2];       // Êîëè÷åñòâî áàéò â ñåêòîðå
-	BYTE SectorsPerCluster;       // Êîëè÷åñòâî ñåêòîðîâ â êëàñòåðå
-	BYTE Offset_TotalSectors[26]; // Ñìåùåíèå äî çíà÷åíèÿ êîëè÷åñòâà ñåêòîðîâ â ÔÑ
-	ULONGLONG TotalSectors;       // Êîëè÷åñòâî ñåêòîðîâ â ôàéëîâîé ñèñòåìå
+	BYTE Offset_OEM[3];           // Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
+	BYTE OEM_Name[8];             // Ð˜Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
+	BYTE BytesPerSector[2];       // ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð±Ð°Ð¹Ñ‚ Ð² ÑÐµÐºÑ‚Ð¾Ñ€Ðµ
+	BYTE SectorsPerCluster;       // ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ðµ
+	BYTE Offset_TotalSectors[26]; // Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð° ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² Ð¤Ð¡
+	ULONGLONG TotalSectors;       // ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ
 
 } ntfsBootRecord;
 
@@ -21,7 +21,7 @@ ntfsClass::ntfsClass(driveClass* driveObj) : fsClass(driveObj)
 	sectorOffset.QuadPart = 0;
 	ntfsBootRecord *currentRecord = (ntfsBootRecord*)driveObj->readRecords(sectorOffset, 1024, 1);
 
-    // Ïðèäàåì ñâîéñòâà îáúåêòó
+    // ÐŸÑ€Ð¸Ð´Ð°ÐµÐ¼ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° Ð¾Ð±ÑŠÐµÐºÑ‚Ñƒ
 	bytesPerSector = *(WORD*)currentRecord->BytesPerSector;
 	sectorsPerCluster = currentRecord->SectorsPerCluster;
 	totalSectors = currentRecord->TotalSectors;

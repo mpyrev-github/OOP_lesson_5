@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <windows.h>
 #include <cmath>
 
@@ -7,24 +7,24 @@
 #pragma pack(push, 1)
 typedef struct
 {
-	BYTE Offset_OEM[3];           			// Ñìåùåíèå äî èìåíè ôàéëîâîé ñèñòåìû
-	BYTE OEM_Name[8];             			// Èìÿ ôàéëîâîé ñèñòåìû
-	BYTE BytesPerSector[2];         		// Êîëè÷åñòâî áàéò â ñåêòîðå
-	BYTE SectorsPerCluster;         		// Êîëè÷åñòâî ñåêòîðîâ â êëàñòåðå
-	BYTE ReservedSectorsCount[2];   		// Çàðåçåðâèðîâàííàÿ îáëàñòü
-	BYTE FatCopiesCount;            		// Êîëè÷åñòâî êîïèé FAT
-	BYTE RootDirSize[2];                    // Ðàçìåð êîðíåâîãî êààòàëîãà FAT12/16
-	BYTE TotalSectors16[2];         		// Êîëè÷åñòâî ñåêòîðîâ â ôàéëîâîé ñèñòåìå FAT12/16
-	BYTE DevType;                           // Òèï íîñòåëÿ
-	BYTE FatSize16[2];                      // Ðàçìåð FAT â ñåêòîðàõ FAT12/16
-	BYTE Offset_StartSectors[4];    		// Ñìåùåíèå äî çíà÷åíèÿ íà÷àëüíîãî ñåêòîðà
-	BYTE StartSectors[4];           		// Êîëè÷åñòâî ñåêòîðîâ ïåðåä íà÷àëîì ðàçäåëà
-	BYTE TotalSectors32[4];         		// Êîëè÷åñòâî ñåêòîðîâ â ôàéëîâîé ñèñòåìå FAT32
-	BYTE FatSize32[4];                    	// Ðàçìåð FAT â ñåêòîðàõ FAT32
-	BYTE Offset_RootDirCluster[4];          // Ñìåùåíèå äî çíà÷åíèÿ êëàñòåðà, â êîòîðîì íàõîäèòñÿ êîðíåâîé êàòàëîã
-	BYTE RootDirCluster[4];					// Êëàñòåð, â êîòîðîì íàõîäèòñÿ êîðíåâîé êàòàëîã FAT32
-	BYTE Offset_BootCopySectorNumber[2];    // Ñìåùåíèå äî çíà÷åíèÿ
-	BYTE BootCopySectorNumber[2];           // Ñåêòîð, â êîòîðîì íàõîäèòñÿ ðåçåðâíàÿ êîïèÿ çàãðóçî÷íîãî ñåêòîðà
+	BYTE Offset_OEM[3];           			// Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
+	BYTE OEM_Name[8];             			// Ð˜Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹
+	BYTE BytesPerSector[2];         		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð±Ð°Ð¹Ñ‚ Ð² ÑÐµÐºÑ‚Ð¾Ñ€Ðµ
+	BYTE SectorsPerCluster;         		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ðµ
+	BYTE ReservedSectorsCount[2];   		// Ð—Ð°Ñ€ÐµÐ·ÐµÑ€Ð²Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð¾Ð±Ð»Ð°ÑÑ‚ÑŒ
+	BYTE FatCopiesCount;            		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÐºÐ¾Ð¿Ð¸Ð¹ FAT
+	BYTE RootDirSize[2];                    // Ð Ð°Ð·Ð¼ÐµÑ€ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð³Ð¾ ÐºÐ°Ð°Ñ‚Ð°Ð»Ð¾Ð³Ð° FAT12/16
+	BYTE TotalSectors16[2];         		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ FAT12/16
+	BYTE DevType;                           // Ð¢Ð¸Ð¿ Ð½Ð¾ÑÑ‚ÐµÐ»Ñ
+	BYTE FatSize16[2];                      // Ð Ð°Ð·Ð¼ÐµÑ€ FAT Ð² ÑÐµÐºÑ‚Ð¾Ñ€Ð°Ñ… FAT12/16
+	BYTE Offset_StartSectors[4];    		// Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð°
+	BYTE StartSectors[4];           		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð¿ÐµÑ€ÐµÐ´ Ð½Ð°Ñ‡Ð°Ð»Ð¾Ð¼ Ñ€Ð°Ð·Ð´ÐµÐ»Ð°
+	BYTE TotalSectors32[4];         		// ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð¾Ð² Ð² Ñ„Ð°Ð¹Ð»Ð¾Ð²Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ FAT32
+	BYTE FatSize32[4];                    	// Ð Ð°Ð·Ð¼ÐµÑ€ FAT Ð² ÑÐµÐºÑ‚Ð¾Ñ€Ð°Ñ… FAT32
+	BYTE Offset_RootDirCluster[4];          // Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ð°, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³
+	BYTE RootDirCluster[4];					// ÐšÐ»Ð°ÑÑ‚ÐµÑ€, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³ FAT32
+	BYTE Offset_BootCopySectorNumber[2];    // Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ
+	BYTE BootCopySectorNumber[2];           // Ð¡ÐµÐºÑ‚Ð¾Ñ€, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ñ€ÐµÐ·ÐµÑ€Ð²Ð½Ð°Ñ ÐºÐ¾Ð¿Ð¸Ñ Ð·Ð°Ð³Ñ€ÑƒÐ·Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ ÑÐµÐºÑ‚Ð¾Ñ€Ð°
 
 } fatBootRecord;
 #pragma pack(pop)
@@ -37,7 +37,7 @@ fatClass::fatClass(driveClass* driveObj) : fsClass(driveObj)
 	sectorOffset.QuadPart = 0;
 	fatBootRecord *currentRecord = (fatBootRecord*)driveObj->readRecords(sectorOffset, 1024, 1);
 
-	// Ïðèäàåì ñâîéñòâà îáúåêòó
+	// ÐŸÑ€Ð¸Ð´Ð°ÐµÐ¼ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° Ð¾Ð±ÑŠÐµÐºÑ‚Ñƒ
 	bytesPerSector = *(WORD *)currentRecord->BytesPerSector;
 	sectorsPerCluster = currentRecord->SectorsPerCluster;
 	reservedSectorsCount = *(WORD *)currentRecord->ReservedSectorsCount;

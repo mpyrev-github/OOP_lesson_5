@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <windows.h>
 #include <string>
@@ -10,18 +10,18 @@
 
 class driveClass {
 private:
-	HANDLE fileHandle;				// Дескриптор файлового устройства (раздела диска)
+	HANDLE fileHandle;				// Р”РµСЃРєСЂРёРїС‚РѕСЂ С„Р°Р№Р»РѕРІРѕРіРѕ СѓСЃС‚СЂРѕР№СЃС‚РІР° (СЂР°Р·РґРµР»Р° РґРёСЃРєР°)
 
 public:
-	driveClass(const WCHAR *fileName);                           		// Конструктор
+	driveClass(const WCHAR *fileName);                           		// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 
 	HANDLE getFileHandle();
 
 	BYTE *readRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster, DWORD numOfClustersToRead);
 
-	void printHexBuffer(BYTE * buffer, DWORD bufferSize);     // Отображение буффера в HEX виде
+	void printHexBuffer(BYTE * buffer, DWORD bufferSize);     // РћС‚РѕР±СЂР°Р¶РµРЅРёРµ Р±СѓС„С„РµСЂР° РІ HEX РІРёРґРµ
 
-	~driveClass();                                  // Деструктор
+	~driveClass();                                  // Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
 };
 
 
