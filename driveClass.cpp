@@ -44,7 +44,6 @@ BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster,
 
 	BYTE* buffer = new BYTE;
 	clusterIterator * iterator = new clusterIterator(fileHandle, sectorOffset, bytesPerCluster, numOfClustersToRead);
-	iterator->First();
 	for(iterator->First(); !iterator->IsDone(); iterator->Next())
 	{
 		buffer = iterator->GetCurrent();
