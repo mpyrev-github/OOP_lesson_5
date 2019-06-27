@@ -54,8 +54,11 @@ void fsClass::readClusters(){
 		BYTE *dataBuffer = driveObj->readRecords(sectorOffset, getBytesPerCluster(), numOfClustersToRead);
 		driveObj->printHexBuffer(dataBuffer, bytesToRead);     // Вывод в виде HEX значений
 		delete[] dataBuffer;
+		BYTE *dataBuffer = driveObj->readEvenRecords(sectorOffset, getBytesPerCluster(), numOfClustersToRead);
+		driveObj->printHexBuffer(dataBuffer, bytesToRead);     // Вывод в виде HEX значений
+		delete[] dataBuffer;
 }
 
 fsClass::~fsClass(){
-
+	delete driveObj;
 }

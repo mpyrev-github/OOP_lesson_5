@@ -7,6 +7,7 @@
 #include <iomanip>
 
 #include "iteratorClass.h"
+#include "iteratorDecoratorClass.h"
 
 class driveClass {
 private:
@@ -18,6 +19,7 @@ public:
 	HANDLE getFileHandle();
 
 	BYTE *readRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster, DWORD numOfClustersToRead);
+	BYTE *readEvenRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster, DWORD numOfClustersToRead);
 
 	void printHexBuffer(BYTE * buffer, DWORD bufferSize);     // Отображение буффера в HEX виде
 

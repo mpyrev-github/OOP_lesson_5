@@ -60,5 +60,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fsObj->readClusters();
 
 	system("pause");
+	delete driveObj;
+	delete fsObj;
 	return 0;
 }

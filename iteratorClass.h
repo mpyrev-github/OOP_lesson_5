@@ -13,9 +13,9 @@ private:
 	DWORD clustersReaded;
 public:
 	clusterIterator(HANDLE fileHandle, LARGE_INTEGER sectorOffset, DWORD BytesPerCluster, DWORD numOfClustersToRead);
-	void First();
-	void Next();
-	bool IsDone();
+	virtual void First();
+	virtual void Next();
+	virtual bool IsDone();
 	BYTE* GetCurrent();
 	~clusterIterator();
 };

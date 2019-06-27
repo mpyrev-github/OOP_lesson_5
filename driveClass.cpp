@@ -42,16 +42,30 @@ HANDLE driveClass::getFileHandle(){
 
 BYTE *driveClass::readRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster, DWORD numOfClustersToRead){
 
+	cout << "↓This is iterator↓" << endl;
 	BYTE* buffer = new BYTE;
 	clusterIterator * iterator = new clusterIterator(fileHandle, sectorOffset, bytesPerCluster, numOfClustersToRead);
 	for(iterator->First(); !iterator->IsDone(); iterator->Next())
 	{
 		buffer = iterator->GetCurrent();
 	}
-
 	return buffer;
+	delete[] buffer;
 }
 
+BYTE *driveClass::readEvenRecords(LARGE_INTEGER sectorOffset, DWORD bytesPerCluster, DWORD numOfClustersToRead){
+
+	cout << "↓This is decorator↓" << endl;
+	BYTE* buffer = new BYTE;
+	clusterIteratorDecorator * iterator = new clusterIteratorDecorator(fileHandle, sectorOffset, bytesPerCluster, numOfClustersToRead);
+	for(iterator->First(); !iterator->IsDone(); iterator->Next())
+	{
+		buffer = iterator->GetCurrent();
+	}
+	
+	return buffer;
+	delete[] buffer;
+}
 // Метод вывода буффера в HEX виде
 void driveClass::printHexBuffer(BYTE * buffer, DWORD bufferSize){
 	cout << "[----------------------   ----------------------]" << endl;
